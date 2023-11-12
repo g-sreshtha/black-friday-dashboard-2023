@@ -1,0 +1,6 @@
+rewrites:
+  - sourceUrl: \/(?<!_astro\/)([^\?\/]+)(?<!\.html|\.svg|\.png|\.jpg|\.js|\.css|\.json)(?:\/?)(?=$|$|\?)
+    targetUrl: /$1/index.html
+
+  - sourceUrl: ^\/$
+    targetUrl: /index.html

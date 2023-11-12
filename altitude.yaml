@@ -1,0 +1,11 @@
+version: v2.0
+provider: cloudflare
+routes:
+  - pathPrefix: /
+    name: dashboard
+    type: static
+    directory: .
+    build:
+      command: build
+      output:
+        directory: dist
