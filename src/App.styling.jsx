@@ -11,12 +11,10 @@ const heading = styled.h1`
 `;
 
 const mapStyle = styled.div`
-  width: 1400px;
-  height: 1000px
-  border-style: double;
+  width: 100%;
+  height: 15%,
   justify-content: center;
-  background-color:
-
+  background-color:;
 `;
 
 export default { heading, mapStyle };
