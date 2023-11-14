@@ -4,6 +4,7 @@ import {
   Geographies,
   Geography,
   Sphere,
+  Graticule,
 } from 'react-simple-maps';
 
 const countries = {
@@ -11,13 +12,14 @@ const countries = {
   color: '#000000', // Black color
 };
 
-const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
 
 const MapChart = () => {
   return (
     <div style={{ backgroundColor: 'transparent' }}>
       <ComposableMap data-tip="">
-        <Sphere stroke="#E4E5E6" strokeWidth={0.1} />
+        <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
+        <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map(geo => {
