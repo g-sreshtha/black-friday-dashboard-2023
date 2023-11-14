@@ -14,7 +14,7 @@ const countries = {
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
 
-const MapChart = () => {
+export const MapChart = () => {
   return (
     <div style={{ backgroundColor: 'transparent' }}>
       <ComposableMap data-tip="">
@@ -39,5 +39,3 @@ const MapChart = () => {
     </div>
   );
 };
-
-export default MapChart;
