@@ -5,8 +5,6 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 const time = Date.now()
 function App() {
   const [count, setCount] = useState(0)
-  const [ordersArray, setOrdersArray] = useState([]);
-  const [timeRange, setTimeRange] = useState(0);
   const total = useRef(0);
   fetchEventSource("https://accelerator.thgaccess.com/events", {
     onmessage(event) {
@@ -24,7 +22,7 @@ function App() {
     if (event && event.total_items_price) {
       const newTime = Date.now()
       const totalGbpPrice = event.total_items_price.gbp_value;
-      const channel = event.property.channel;
+      //const channel = event.property.channel;
       const countryCode = event.shipping.country_code;
       total.current = total.current + totalGbpPrice;
       // console.log(total);
@@ -296,66 +294,66 @@ function App() {
 
   //0 - nutrition, 1 - beauty, 2 - lifestyle
   //check if all channel names are correct
-  function getDivisionFromChannel(channel) {
-    const channelMapping = {
-      myprotein: 0,
-      myvegan: 0,
-      massint: 0,
-      myvitamins: 0,
-      idealshape: 0,
-      idealfit: 0,
-      exante: 0,
-      idealraw: 0,
+  // function getDivisionFromChannel(channel) {
+  //   const channelMapping = {
+  //     myprotein: 0,
+  //     myvegan: 0,
+  //     massint: 0,
+  //     myvitamins: 0,
+  //     idealshape: 0,
+  //     idealfit: 0,
+  //     exante: 0,
+  //     idealraw: 0,
 
-      espa: 1,
-      mio: 1,
-      growgorgeous: 1,
-      mious: 1,
-      illamasqua: 1,
-      lfint: 1,
-      skinstore: 1,
-      beautyexpert: 1,
-      mankind: 1,
-      hqhair: 1,
-      skincarerx: 1,
-      ryint: 1,
-      glossybox: 1,
-      facial: 1,
+  //     espa: 1,
+  //     mio: 1,
+  //     growgorgeous: 1,
+  //     mious: 1,
+  //     illamasqua: 1,
+  //     lfint: 1,
+  //     skinstore: 1,
+  //     beautyexpert: 1,
+  //     mankind: 1,
+  //     hqhair: 1,
+  //     skincarerx: 1,
+  //     ryint: 1,
+  //     glossybox: 1,
+  //     facial: 1,
 
-      ameliorate: 1,
-      christopherobin: 1,
-      cultbeauty: 1,
-      dermstore: 1,
-      eyeko: 1,
-      glossyboxskincare: 1,
-      lookfantastic: 1,
-      mamamio: 1,
-      minimio: 1,
-      perriconeMD: 1,
+  //     ameliorate: 1,
+  //     christopherobin: 1,
+  //     cultbeauty: 1,
+  //     dermstore: 1,
+  //     eyeko: 1,
+  //     glossyboxskincare: 1,
+  //     lookfantastic: 1,
+  //     mamamio: 1,
+  //     minimio: 1,
+  //     perriconeMD: 1,
 
-      probike: 2,
-      zavvi: 2,
-      iwoot: 2,
-      popinabox: 2,
-      mygeekbox: 2,
-      ninint: 2,
-      eaint: 2,
-      honda: 2,
-      thehut: 2,
-      coggles: 2,
-      mybag: 2,
-      allsole: 2,
-      arrow: 2,
-      preloved: 2,
-    };
+  //     probike: 2,
+  //     zavvi: 2,
+  //     iwoot: 2,
+  //     popinabox: 2,
+  //     mygeekbox: 2,
+  //     ninint: 2,
+  //     eaint: 2,
+  //     honda: 2,
+  //     thehut: 2,
+  //     coggles: 2,
+  //     mybag: 2,
+  //     allsole: 2,
+  //     arrow: 2,
+  //     preloved: 2,
+  //   };
 
-    //if channel is in the list, get the division number
-    if (Object.keys(channelMapping).indexOf(channel) > -1) {
-      return channelMapping[channel];
-    } else {
-      return 2;
-    }
-  }
+  //   //if channel is in the list, get the division number
+  //   if (Object.keys(channelMapping).indexOf(channel) > -1) {
+  //     return channelMapping[channel];
+  //   } else {
+  //     return 2;
+  //   }
+  // }
 
 
   return ( 
