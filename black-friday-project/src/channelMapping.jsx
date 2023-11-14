@@ -11,6 +11,10 @@ const channelMappingChatGTP = {
 "idealraw": 0,
 "optifast": 0,
 "comvita": 0,
+"mypronutri": 0,
+"trrnutrition": 0,
+"lqcollagen": 0,
+
 "beautysleuth": 1,
 "andalounatur": 1,
 "percentpure": 1,
@@ -29,6 +33,8 @@ const channelMappingChatGTP = {
 "watermans": 1,
 "wella": 1,
 "cbeauty": 1,
+"barberbarber": 1,
+"revlon": 1,
 
 "zyn": 2,
 "vimto": 2,
@@ -43,11 +49,9 @@ const channelMappingChatGTP = {
 "lyleandscott": 2,
 "clogauoutlet": 2,
 "purinabeta": 2,
-
 "sfihealth": 2,
 "kickers": 2,
 "thgtraining": 2,
-"barberbarber": 2,
 "handmadesoap": 2,
 "gracecole": 2,
 "ellesse": 2,
@@ -59,8 +63,6 @@ const channelMappingChatGTP = {
 "unishop": 2,
 "rubyanddaisy": 2,
 "eontea": 2,
-"mypronutri": 2,
-"revlon": 2,
 "unexpekted": 2,
 "jonrichard": 2,
 "mitre": 2,
@@ -72,9 +74,9 @@ const channelMappingChatGTP = {
 "esprit": 2,
 "otocbd": 2,
 "dgwellwear": 2,
-"trrnutrition": 2,
-"lqcollagen": 2,
 "filorga": 2,
+
+
 "lesgirlslesb": 2,
 "cargods": 2,
 "frankbody": 2,
