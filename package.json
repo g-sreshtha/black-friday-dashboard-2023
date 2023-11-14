@@ -13,11 +13,14 @@
   },
   "dependencies": {
     "@microsoft/fetch-event-source": "^2.0.1",
-    "d3-color": "^3.1.0",
+    "@tippyjs/react": "^4.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-simple-maps": "^3.0.0",
     "styled-components": "^6.1.1"
+  },
+  "overrides": {
+    "d3-color": "^3.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
