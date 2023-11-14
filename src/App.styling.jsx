@@ -7,11 +7,16 @@ const heading = styled.h1`
   align-items: center;
   height: 100%;
   weight: 100%;
+  margin-bottom: 0px;
 `;
 
 const mapStyle = styled.div`
   width: 1400px;
+  height: 1000px
   border-style: double;
+  justify-content: center;
+  background-color:
+
 `;
 
 export default { heading, mapStyle };
