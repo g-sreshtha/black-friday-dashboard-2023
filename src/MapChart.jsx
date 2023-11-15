@@ -26,9 +26,9 @@ const MapChart = () => {
     const el = document.getElementById(product);
     console.log(el);
 
-    Tippy(`#${product}`, {
-      content: { product },
-    });
+    // Tippy(`#${product}`, {
+    //   content: { product },
+    // });
   }, [product]);
 
   // const handleMouseEnter = () => {};
