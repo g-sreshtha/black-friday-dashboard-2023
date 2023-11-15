@@ -449,7 +449,7 @@ export const App = () => {
       //const channel = event.property.channel;
       const countryCode = event.shipping.country_code;
       total.current = total.current + totalGbpPrice;
-      // console.log(total);
+      console.log(total.current);
       console.log(newTime - time);
       if (newTime - time < 60000) {
         let newCountryState = [...defaultCountryState];
