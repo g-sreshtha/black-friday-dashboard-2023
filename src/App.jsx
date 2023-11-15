@@ -6,7 +6,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 const time = Date.now();
 export const App = () => {
-  const [count, setCount] = useState(0);
+  //const [count, setCount] = useState(0);
   const total = useRef(0);
   fetchEventSource('https://accelerator.thgaccess.com/events', {
     onmessage(event) {
