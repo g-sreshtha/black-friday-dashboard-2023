@@ -1,53 +1,11 @@
 import MapChart from './MapChart.jsx';
 import s from './App.styling.jsx';
 import { useState, useRef } from 'react';
-//import './App.css';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 const time = Date.now();
 export const App = () => {
-  //const [count, setCount] = useState(0);
-  const total = useRef(0);
-  fetchEventSource('https://accelerator.thgaccess.com/events', {
-    onmessage(event) {
-      let message = JSON.parse(event.data);
-      //console.log(message);
-      handleMessage(message);
-    },
-    onerror(e) {
-      console.error(e);
-    },
-    credentials: 'include',
-  });
-
-  const handleMessage = event => {
-    if (event && event.total_items_price) {
-      const newTime = Date.now();
-      const totalGbpPrice = event.total_items_price.gbp_value;
-      //const channel = event.property.channel;
-      const countryCode = event.shipping.country_code;
-      total.current = total.current + totalGbpPrice;
-      // console.log(total);
-      console.log(newTime - time);
-      if (newTime - time < 60000) {
-        defaultCountryState.current.forEach(country => {
-          if (country.countryCode === countryCode) {
-            country.total = country.total + totalGbpPrice;
-          }
-        });
-        //console.log(countryCode)
-        console.log(
-          defaultCountryState.current.filter(el => {
-            return el.countryCode === countryCode;
-          }),
-        );
-      } else {
-        window.location.reload();
-      }
-    }
-  };
-
-  const defaultCountryState = useRef([
+  const defaultCountryState = [
     { countryCode: 'AF', countryName: 'Afghanistan', total: 0, colour: 0 },
     { countryCode: 'AX', countryName: 'Aland Islands', total: 0, colour: 0 },
     { countryCode: 'AL', countryName: 'Albania', total: 0, colour: 0 },
@@ -111,7 +69,7 @@ export const App = () => {
     { countryCode: 'KY', countryName: 'Cayman Islands', total: 0, colour: 0 },
     {
       countryCode: 'CF',
-      countryName: 'Central African Republic',
+      countryName: 'Central African Rep.',
       total: 0,
       colour: 0,
     },
@@ -130,7 +88,7 @@ export const App = () => {
     { countryCode: 'CG', countryName: 'Congo', total: 0, colour: 0 },
     {
       countryCode: 'CD',
-      countryName: 'Congo, Democratic Republic',
+      countryName: 'Dem. Rep. Congo',
       total: 0,
       colour: 0,
     },
@@ -217,7 +175,7 @@ export const App = () => {
     { countryCode: 'ID', countryName: 'Indonesia', total: 0, colour: 0 },
     {
       countryCode: 'IR',
-      countryName: 'Iran, Islamic Republic Of',
+      countryName: 'Iran',
       total: 0,
       colour: 0,
     },
@@ -233,7 +191,6 @@ export const App = () => {
     { countryCode: 'KZ', countryName: 'Kazakhstan', total: 0, colour: 0 },
     { countryCode: 'KE', countryName: 'Kenya', total: 0, colour: 0 },
     { countryCode: 'KI', countryName: 'Kiribati', total: 0, colour: 0 },
-    { countryCode: 'KR', countryName: 'Korea', total: 0, colour: 0 },
     { countryCode: 'KP', countryName: 'North Korea', total: 0, colour: 0 },
     { countryCode: 'KW', countryName: 'Kuwait', total: 0, colour: 0 },
     { countryCode: 'KG', countryName: 'Kyrgyzstan', total: 0, colour: 0 },
@@ -249,7 +206,7 @@ export const App = () => {
     { countryCode: 'LR', countryName: 'Liberia', total: 0, colour: 0 },
     {
       countryCode: 'LY',
-      countryName: 'Libyan Arab Jamahiriya',
+      countryName: 'Libya',
       total: 0,
       colour: 0,
     },
@@ -331,7 +288,7 @@ export const App = () => {
     { countryCode: 'RO', countryName: 'Romania', total: 0, colour: 0 },
     {
       countryCode: 'RU',
-      countryName: 'Russian Federation',
+      countryName: 'Russia',
       total: 0,
       colour: 0,
     },
@@ -383,6 +340,8 @@ export const App = () => {
       total: 0,
       colour: 0,
     },
+    { countryCode: 'KR', countryName: 'South Korea', total: 0, colour: 0 },
+    { countryCode: 'SS', countryName: 'S. Sudan', total: 0, colour: 0 },
     { countryCode: 'ES', countryName: 'Spain', total: 0, colour: 0 },
     { countryCode: 'LK', countryName: 'Sri Lanka', total: 0, colour: 0 },
     { countryCode: 'SD', countryName: 'Sudan', total: 0, colour: 0 },
@@ -398,7 +357,7 @@ export const App = () => {
     { countryCode: 'CH', countryName: 'Switzerland', total: 0, colour: 0 },
     {
       countryCode: 'SY',
-      countryName: 'Syrian Arab Republic',
+      countryName: 'Syria',
       total: 0,
       colour: 0,
     },
@@ -435,7 +394,7 @@ export const App = () => {
       colour: 0,
     },
     { countryCode: 'GB', countryName: 'United Kingdom', total: 0, colour: 0 },
-    { countryCode: 'US', countryName: 'United States', total: 0, colour: 0 },
+    { countryCode: 'US', countryName: 'United States of America', total: 0, colour: 0 },
     {
       countryCode: 'UM',
       countryName: 'United States Outlying Islands',
@@ -469,7 +428,49 @@ export const App = () => {
     { countryCode: 'YE', countryName: 'Yemen', total: 0, colour: 0 },
     { countryCode: 'ZM', countryName: 'Zambia', total: 0, colour: 0 },
     { countryCode: 'ZW', countryName: 'Zimbabwe', total: 0, colour: 0 },
-  ]);
+  ];
+  const [countryState, setCountryState] = useState(defaultCountryState);
+  const total = useRef(0);
+  fetchEventSource('https://accelerator.thgaccess.com/events', {
+    onmessage(event) {
+      let message = JSON.parse(event.data);
+      //console.log(message);
+      handleMessage(message);
+    },
+    onerror(e) {
+      console.error(e);
+    },
+    credentials: 'include',
+  });
+
+  const handleMessage = event => {
+    if (event && event.total_items_price) {
+      const newTime = Date.now();
+      const totalGbpPrice = event.total_items_price.gbp_value;
+      //const channel = event.property.channel;
+      const countryCode = event.shipping.country_code;
+      total.current = total.current + totalGbpPrice;
+      console.log(total.current);
+      console.log(newTime - time);
+      if (newTime - time < 60000) {
+        let newCountryState = [...defaultCountryState];
+        newCountryState.forEach(country => {
+          if (country.countryCode === countryCode) {
+            country.total = country.total + totalGbpPrice;
+          }
+        });
+        setCountryState(newCountryState);
+        //console.log(countryCode)
+        console.log(
+          countryState.filter(el => {
+            return el.countryCode === countryCode;
+          }),
+        );
+      } else {
+        window.location.reload();
+      }
+    }
+  };
 
   return (
     <>
@@ -477,7 +478,7 @@ export const App = () => {
         <h1>LoveLace Dashboard</h1>
       </s.heading>
       <s.mapStyle>
-        <MapChart />
+        <MapChart defaultCountryData = {countryState}/>
       </s.mapStyle>
     </>
   );
