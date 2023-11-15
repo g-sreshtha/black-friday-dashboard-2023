@@ -6,17 +6,23 @@ import {
   Sphere,
   Graticule,
 } from 'react-simple-maps';
+import { scaleLinear } from 'd3-scale';
 
 import Tippy from '@tippyjs/react';
 
-const countries = {
-  name: 'United Kingdom',
+const defaultCountryState = {
+  countryName: 'United Kingdom',
   color: '#000000',
+  total: 0
 };
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
 
-const MapChart = () => {
+const colorScale = scaleLinear()
+  .domain ([0.1, 0.8])
+  .range(["#6ecbfa","#0238fa"]) // Between light blue and dark blue - can be changed to different colours
+
+export const MapChart = () => {
   const [product, setProduct] = useState(undefined);
   console.log(product);
 
@@ -34,7 +40,6 @@ const MapChart = () => {
   // const handleMouseEnter = () => {};
   return (
     <>
-      <button id="test">test me</button>
       <div
         style={{
           backgroundColor: 'transparent',
@@ -61,8 +66,8 @@ const MapChart = () => {
                     geography={geo}
                     id={geo.rsmKey}
                     fill={
-                      geo.properties.name === countries.name
-                        ? countries.color
+                      geo.properties.name === defaultCountryState.name
+                        ? defaultCountryState.color
                         : '#F5F4F6'
                     }
                     onMouseEnter={() => {
