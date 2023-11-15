@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import image from './colourscale.png';
 
 import {
   Chart as ChartJS,
@@ -13,8 +14,20 @@ import {
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const BarChart = () => {
+  const container = {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  };
+  const buttons = {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
   const data = {
-    labels: ['Nutrition', 'Beauty', 'Ingenuity'],
+    labels: ['Nutrition', 'Beauty', 'Lifestyle'],
     datasets: [
       {
         label: 'Top Divisions',
@@ -31,15 +44,29 @@ const BarChart = () => {
 
   const options = {
     indexAxis: 'y',
-    layout: {
-      padding: 50,
-    },
+    maintainAspectRatio: false,
+    responsive: true,
   };
 
   return (
-    <div>
-      <Bar data={data} options={options} />
-    </div>
+    <>
+      <div style={container}>
+        <div>
+          <div style={container}>
+            <p>low revenue</p>
+            <img src={image} alt="scale gradient" />
+            <p>high revenue</p>
+          </div>
+          <div style={buttons}>
+            <button style={{ margin: '10px' }}>click me </button>
+            <button style={{ margin: '10px' }}>click me </button>
+          </div>
+        </div>
+        <div style={{ width: '400px', height: '300px' }}>
+          <Bar data={data} options={options} />
+        </div>
+      </div>
+    </>
   );
 };
 
