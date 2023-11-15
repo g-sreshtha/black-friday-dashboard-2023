@@ -10,21 +10,15 @@ import { scaleLinear } from 'd3-scale';
 
 import Tippy from '@tippyjs/react';
 
-const defaultCountryState = {
-  countryName: 'United Kingdom',
-  color: '#000000',
-  total: 0
-};
-
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
 
 const colorScale = scaleLinear()
-  .domain ([0.1, 0.8])
+  .domain ([0, 1000])
   .range(["#6ecbfa","#0238fa"]) // Between light blue and dark blue - can be changed to different colours
 
-export const MapChart = () => {
+export const MapChart = ({defaultCountryData}) => {
   const [product, setProduct] = useState(undefined);
-  console.log(product);
+
 
   useEffect(() => {
     console.log({ product });
@@ -60,16 +54,21 @@ export const MapChart = () => {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => {
+                const countryData = defaultCountryData && defaultCountryData.length > 0
+                ? defaultCountryData.find(
+                    data => data.countryName === geo.properties.name
+                  )
+                : undefined;
+
+                const fillColor = countryData
+                  ? colorScale(countryData.total)
+                  : '#F5F4F6'; 
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     id={geo.rsmKey}
-                    fill={
-                      geo.properties.name === defaultCountryState.name
-                        ? defaultCountryState.color
-                        : '#F5F4F6'
-                    }
+                    fill={fillColor}
                     onMouseEnter={() => {
                       const product = geo.properties.name;
                       setProduct(geo.rsmKey);
