@@ -1,53 +1,11 @@
 import MapChart from './MapChart.jsx';
 import s from './App.styling.jsx';
 import { useState, useRef } from 'react';
-//import './App.css';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 const time = Date.now();
 export const App = () => {
-  //const [count, setCount] = useState(0);
-  const total = useRef(0);
-  fetchEventSource('https://accelerator.thgaccess.com/events', {
-    onmessage(event) {
-      let message = JSON.parse(event.data);
-      //console.log(message);
-      handleMessage(message);
-    },
-    onerror(e) {
-      console.error(e);
-    },
-    credentials: 'include',
-  });
-
-  const handleMessage = event => {
-    if (event && event.total_items_price) {
-      const newTime = Date.now();
-      const totalGbpPrice = event.total_items_price.gbp_value;
-      //const channel = event.property.channel;
-      const countryCode = event.shipping.country_code;
-      total.current = total.current + totalGbpPrice;
-      // console.log(total);
-      console.log(newTime - time);
-      if (newTime - time < 60000) {
-        defaultCountryState.current.forEach(country => {
-          if (country.countryCode === countryCode) {
-            country.total = country.total + totalGbpPrice;
-          }
-        });
-        //console.log(countryCode)
-        console.log(
-          defaultCountryState.current.filter(el => {
-            return el.countryCode === countryCode;
-          }),
-        );
-      } else {
-        window.location.reload();
-      }
-    }
-  };
-
-  const defaultCountryState = useRef([
+  const defaultCountryState = [
     { countryCode: 'AF', countryName: 'Afghanistan', total: 0, colour: 0 },
     { countryCode: 'AX', countryName: 'Aland Islands', total: 0, colour: 0 },
     { countryCode: 'AL', countryName: 'Albania', total: 0, colour: 0 },
@@ -469,7 +427,49 @@ export const App = () => {
     { countryCode: 'YE', countryName: 'Yemen', total: 0, colour: 0 },
     { countryCode: 'ZM', countryName: 'Zambia', total: 0, colour: 0 },
     { countryCode: 'ZW', countryName: 'Zimbabwe', total: 0, colour: 0 },
-  ]);
+  ];
+  const [countryState, setCountryState] = useState(defaultCountryState);
+  const total = useRef(0);
+  fetchEventSource('https://accelerator.thgaccess.com/events', {
+    onmessage(event) {
+      let message = JSON.parse(event.data);
+      //console.log(message);
+      handleMessage(message);
+    },
+    onerror(e) {
+      console.error(e);
+    },
+    credentials: 'include',
+  });
+
+  const handleMessage = event => {
+    if (event && event.total_items_price) {
+      const newTime = Date.now();
+      const totalGbpPrice = event.total_items_price.gbp_value;
+      //const channel = event.property.channel;
+      const countryCode = event.shipping.country_code;
+      total.current = total.current + totalGbpPrice;
+      // console.log(total);
+      console.log(newTime - time);
+      if (newTime - time < 60000) {
+        let newCountryState = [...defaultCountryState];
+        newCountryState.forEach(country => {
+          if (country.countryCode === countryCode) {
+            country.total = country.total + totalGbpPrice;
+          }
+        });
+        setCountryState(newCountryState);
+        //console.log(countryCode)
+        console.log(
+          countryState.filter(el => {
+            return el.countryCode === countryCode;
+          }),
+        );
+      } else {
+        window.location.reload();
+      }
+    }
+  };
 
   return (
     <>
