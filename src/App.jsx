@@ -1,7 +1,9 @@
 import s from './App.styling.jsx';
 import React from 'react';
 import { MapChart } from './Mapchart.jsx';
+import { Scale } from './scale.jsx';
 import { Graph } from './Key.jsx';
+import b from './keystyles.jsx';
 
 export const App = () => {
   return (
@@ -12,12 +14,9 @@ export const App = () => {
       <s.mapStyle>
         <MapChart />
       </s.mapStyle>
-      <div>
-        <div>
-          <p>key</p>
-        </div>
-        <Graph />
-      </div>
+
+      <Scale />
+      <Graph />
     </>
   );
 };

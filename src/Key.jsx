@@ -14,7 +14,7 @@ export const Graph = () => {
       datasets: [
         {
           label: 'Top Divisions',
-          data: [100, 200, 300],
+          data: [10, 20, 30],
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
@@ -29,12 +29,15 @@ export const Graph = () => {
     (chartRef.current = new Chart(ctx, {
       type: 'bar',
       data: data,
+      options: {
+        indexAxis: 'y',
+      },
     })),
       [];
   });
   return (
     <>
-      <canvas id="divisions" width="200px" height="200px"></canvas>
+      <canvas id="divisions"></canvas>
     </>
   );
 };
