@@ -12,10 +12,10 @@ import Tippy from '@tippyjs/react';
 const geoUrl = '/map.json';
 
 const colorScale = scaleLinear()
-  .domain ([0, 1000])
-  .range(["#6ecbfa","#0238fa"]) // Between light blue and dark blue - can be changed to different colours
+  .domain([0, 1000])
+  .range(['#6ecbfa', '#0238fa']); // Between light blue and dark blue - can be changed to different colours
 
-export const MapChart = ({defaultCountryData}) => {
+export const MapChart = ({ defaultCountryData }) => {
   const [hoveredCountry, setHoveredCountry] = useState(null);
 
   return (
@@ -33,8 +33,8 @@ export const MapChart = ({defaultCountryData}) => {
           data-tip=""
           style={{
             height: '1000px',
-            padding:'0px',
-            marginBottom:"0px"
+            padding: '0px',
+            marginBottom: '0px',
           }}
         >
           <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
@@ -42,15 +42,16 @@ export const MapChart = ({defaultCountryData}) => {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => {
-                const countryData = defaultCountryData && defaultCountryData.length > 0
-                ? defaultCountryData.find(
-                    data => data.countryName === geo.properties.name
-                  )
-                : undefined;
+                const countryData =
+                  defaultCountryData && defaultCountryData.length > 0
+                    ? defaultCountryData.find(
+                        data => data.countryName === geo.properties.name,
+                      )
+                    : undefined;
 
                 const fillColor = countryData
                   ? colorScale(countryData.total)
-                  : '#F5F4F6'; 
+                  : '#F5F4F6';
                 return (
                   <Geography
                     key={geo.rsmKey}
@@ -58,8 +59,8 @@ export const MapChart = ({defaultCountryData}) => {
                     id={geo.rsmKey}
                     fill={fillColor}
                     onMouseEnter={() => {
-                      const countryName = geo.properties.name
-                      setHoveredCountry(countryName)
+                      const countryName = geo.properties.name;
+                      setHoveredCountry(countryName);
                     }}
                     onMouseLeave={() => {
                       setHoveredCountry(null);
