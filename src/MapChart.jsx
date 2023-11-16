@@ -7,13 +7,12 @@ import {
   Graticule,
 } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
-
 import Tippy from '@tippyjs/react';
 
-const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
+const geoUrl = '/map.json';
 
 const colorScale = scaleLinear()
-  .domain ([0, 1000])
+  .domain ([0, 10000])
   .range(["#6ecbfa","#0238fa"]) // Between light blue and dark blue - can be changed to different colours
 
 export const MapChart = ({defaultCountryData}) => {
