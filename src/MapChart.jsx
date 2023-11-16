@@ -6,35 +6,20 @@ import {
   Sphere,
   Graticule,
 } from 'react-simple-maps';
-
+import { scaleLinear } from 'd3-scale';
 import Tippy from '@tippyjs/react';
 
-const countries = {
-  name: 'United Kingdom',
-  color: '#000000',
-};
+const geoUrl = '/map.json';
 
-const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
+const colorScale = scaleLinear()
+  .domain ([0, 10000])
+  .range(["#6ecbfa","#0238fa"]) // Between light blue and dark blue - can be changed to different colours
 
-const MapChart = () => {
-  const [product, setProduct] = useState(undefined);
-  console.log(product);
+export const MapChart = ({defaultCountryData}) => {
+  const [hoveredCountry, setHoveredCountry] = useState(null);
 
-  useEffect(() => {
-    console.log({ product });
-
-    const el = document.getElementById(product);
-    console.log(el);
-
-    // Tippy(`#${product}`, {
-    //   content: { product },
-    // });
-  }, [product]);
-
-  // const handleMouseEnter = () => {};
   return (
     <>
-      <button id="test">test me</button>
       <div
         style={{
           backgroundColor: 'transparent',
@@ -48,6 +33,8 @@ const MapChart = () => {
           data-tip=""
           style={{
             height: '1000px',
+            padding:'0px',
+            marginBottom:"0px"
           }}
         >
           <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
@@ -55,22 +42,27 @@ const MapChart = () => {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => {
+                const countryData = defaultCountryData && defaultCountryData.length > 0
+                ? defaultCountryData.find(
+                    data => data.countryName === geo.properties.name
+                  )
+                : undefined;
+
+                const fillColor = countryData
+                  ? colorScale(countryData.total)
+                  : '#F5F4F6'; 
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     id={geo.rsmKey}
-                    fill={
-                      geo.properties.name === countries.name
-                        ? countries.color
-                        : '#F5F4F6'
-                    }
+                    fill={fillColor}
                     onMouseEnter={() => {
-                      const product = geo.properties.name;
-                      setProduct(geo.rsmKey);
+                      const countryName = geo.properties.name
+                      setHoveredCountry(countryName)
                     }}
                     onMouseLeave={() => {
-                      setProduct(undefined);
+                      setHoveredCountry(null);
                     }}
                     style={{
                       hover: {
@@ -84,6 +76,11 @@ const MapChart = () => {
             }
           </Geographies>
         </ComposableMap>
+        {hoveredCountry && (
+          <Tippy content={hoveredCountry}>
+            <span>{hoveredCountry}</span>
+          </Tippy>
+        )}
       </div>
     </>
   );
