@@ -495,7 +495,9 @@ export const App = () => {
   return (
     <>
       <s.heading>
-        <h1>Lovelace Dashboard</h1>
+        <h1>
+          <span>The Lovelace Dashboard</span>
+        </h1>
       </s.heading>
       <div style={displayStyles}>
         <img
