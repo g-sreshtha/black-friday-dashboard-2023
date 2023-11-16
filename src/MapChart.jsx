@@ -1,12 +1,7 @@
-import { useState } from 'react';
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Sphere,
-  Graticule,
-} from 'react-simple-maps';
+import React, { useEffect, useState } from 'react';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
+
 import Tippy from '@tippyjs/react';
 
 const geoUrl = '/map.json';
@@ -32,13 +27,13 @@ export const MapChart = ({ defaultCountryData }) => {
         <ComposableMap
           data-tip=""
           style={{
-            height: '1000px',
+            height: '80%',
             padding: '0px',
             marginBottom: '0px',
           }}
         >
-          <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
-          <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
+          {/* <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
+          <Graticule stroke="#E4E5E6" strokeWidth={0.5} /> */}
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => {

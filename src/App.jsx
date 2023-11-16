@@ -1,5 +1,10 @@
-import MapChart from './MapChart.jsx';
 import s from './App.styling.jsx';
+import React from 'react';
+import { MapChart } from './Mapchart.jsx';
+import BarChart from './newGraph.jsx';
+import b from './keystyles.jsx';
+import image from './colourscale.png';
+
 import { useState, useRef, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './newDataStructure.jsx';
@@ -62,15 +67,37 @@ export const App = () => {
       }
     }
   };
+  const displayStyles = {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '90%',
+  };
 
   return (
     <>
-      <s.heading>
-        <h1>LoveLace Dashboard</h1>
-      </s.heading>
-      <s.mapStyle>
-        <MapChart defaultCountryData={countryState} />
-      </s.mapStyle>
+      <div style={{ display: 'grid' }}>
+        <s.heading>
+          <h1>
+            <span>The Lovelace Dashboard</span>
+          </h1>
+        </s.heading>
+        <div style={displayStyles}>
+          <img
+            style={{
+              borderRadius: '20px',
+              margin: '5px 100px',
+              height: '30rem',
+            }}
+            src={image}
+            alt="scale gradient"
+          />
+          <s.mapStyle>
+            <MapChart defaultCountryData={countryState} />
+          </s.mapStyle>
+        </div>
+        <BarChart />
+      </div>
     </>
   );
 };
