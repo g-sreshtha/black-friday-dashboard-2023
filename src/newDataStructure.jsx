@@ -478,7 +478,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'CI',
-    countryName: 'Cote D"Ivoire',
+    countryName: "Cote d'Ivoire",
     total: 0,
     div0: 0,
     div1: 0,
@@ -1090,7 +1090,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'LA',
-    countryName: 'Lao People"s Democratic Republic',
+    countryName: 'Laos',
     total: 0,
     div0: 0,
     div1: 0,
@@ -1954,7 +1954,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'SY',
-    countryName: 'Syrian Arab Republic',
+    countryName: 'Syria',
     total: 0,
     div0: 0,
     div1: 0,
@@ -1999,7 +1999,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'TL',
-    countryName: 'Timor-Leste',
+    countryName: 'Timor',
     total: 0,
     div0: 0,
     div1: 0,
