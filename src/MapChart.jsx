@@ -17,21 +17,8 @@ const colorScale = scaleLinear()
   .range(["#6ecbfa","#0238fa"]) // Between light blue and dark blue - can be changed to different colours
 
 export const MapChart = ({defaultCountryData}) => {
-  const [product, setProduct] = useState(undefined);
+  const [hoveredCountry, setHoveredCountry] = useState(null);
 
-
-  useEffect(() => {
-    console.log({ product });
-
-    const el = document.getElementById(product);
-    console.log(el);
-
-    // Tippy(`#${product}`, {
-    //   content: { product },
-    // });
-  }, [product]);
-
-  // const handleMouseEnter = () => {};
   return (
     <>
       <div
@@ -47,6 +34,8 @@ export const MapChart = ({defaultCountryData}) => {
           data-tip=""
           style={{
             height: '1000px',
+            padding:'0px',
+            marginBottom:"0px"
           }}
         >
           <Sphere stroke="#E4E5E6" strokeWidth={0.5} />
@@ -70,11 +59,11 @@ export const MapChart = ({defaultCountryData}) => {
                     id={geo.rsmKey}
                     fill={fillColor}
                     onMouseEnter={() => {
-                      const product = geo.properties.name;
-                      setProduct(geo.rsmKey);
+                      const countryName = geo.properties.name
+                      setHoveredCountry(countryName)
                     }}
                     onMouseLeave={() => {
-                      setProduct(undefined);
+                      setHoveredCountry(null);
                     }}
                     style={{
                       hover: {
@@ -88,6 +77,11 @@ export const MapChart = ({defaultCountryData}) => {
             }
           </Geographies>
         </ComposableMap>
+        {hoveredCountry && (
+          <Tippy content={hoveredCountry}>
+            <span>{hoveredCountry}</span>
+          </Tippy>
+        )}
       </div>
     </>
   );
