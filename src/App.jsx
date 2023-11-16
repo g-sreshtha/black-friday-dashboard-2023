@@ -1,10 +1,10 @@
 import s from './App.styling.jsx';
 import React from 'react';
-import { MapChart } from './Mapchart.jsx';
+import { MapChart } from './MapChart.jsx';
 import BarChart from './newGraph.jsx';
-import image from './colourscale.png';
+import image from '/colourscale.png';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './newDataStructure.jsx';
 

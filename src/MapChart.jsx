@@ -82,4 +82,4 @@ export const MapChart = ({ defaultCountryData }) => {
   );
 };
 
-export default MapChart;
+// export default { MapChart };
