@@ -1,6 +1,6 @@
 import MapChart from './MapChart.jsx';
 import s from './App.styling.jsx';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 const time = Date.now();
@@ -69,7 +69,7 @@ export const App = () => {
     { countryCode: 'KY', countryName: 'Cayman Islands', total: 0, colour: 0 },
     {
       countryCode: 'CF',
-      countryName: 'Central African Rep.',
+      countryName: 'Central African Republic',
       total: 0,
       colour: 0,
     },
@@ -88,7 +88,7 @@ export const App = () => {
     { countryCode: 'CG', countryName: 'Congo', total: 0, colour: 0 },
     {
       countryCode: 'CD',
-      countryName: 'Dem. Rep. Congo',
+      countryName: 'Democratic Republic of Congo',
       total: 0,
       colour: 0,
     },
@@ -98,7 +98,7 @@ export const App = () => {
     { countryCode: 'HR', countryName: 'Croatia', total: 0, colour: 0 },
     { countryCode: 'CU', countryName: 'Cuba', total: 0, colour: 0 },
     { countryCode: 'CY', countryName: 'Cyprus', total: 0, colour: 0 },
-    { countryCode: 'CZ', countryName: 'Czech Republic', total: 0, colour: 0 },
+    { countryCode: 'CZ', countryName: 'Czechia', total: 0, colour: 0 },
     { countryCode: 'DK', countryName: 'Denmark', total: 0, colour: 0 },
     { countryCode: 'DJ', countryName: 'Djibouti', total: 0, colour: 0 },
     { countryCode: 'DM', countryName: 'Dominica', total: 0, colour: 0 },
@@ -341,7 +341,7 @@ export const App = () => {
       colour: 0,
     },
     { countryCode: 'KR', countryName: 'South Korea', total: 0, colour: 0 },
-    { countryCode: 'SS', countryName: 'S. Sudan', total: 0, colour: 0 },
+    { countryCode: 'SS', countryName: 'South Sudan', total: 0, colour: 0 },
     { countryCode: 'ES', countryName: 'Spain', total: 0, colour: 0 },
     { countryCode: 'LK', countryName: 'Sri Lanka', total: 0, colour: 0 },
     { countryCode: 'SD', countryName: 'Sudan', total: 0, colour: 0 },
@@ -394,7 +394,7 @@ export const App = () => {
       colour: 0,
     },
     { countryCode: 'GB', countryName: 'United Kingdom', total: 0, colour: 0 },
-    { countryCode: 'US', countryName: 'United States of America', total: 0, colour: 0 },
+    { countryCode: 'US', countryName: 'United States', total: 0, colour: 0 },
     {
       countryCode: 'UM',
       countryName: 'United States Outlying Islands',
@@ -431,6 +431,11 @@ export const App = () => {
   ];
   const [countryState, setCountryState] = useState(defaultCountryState);
   const total = useRef(0);
+
+  useEffect(() => {
+
+    // TODO: abort controller stuff
+
   fetchEventSource('https://accelerator.thgaccess.com/events', {
     onmessage(event) {
       let message = JSON.parse(event.data);
@@ -443,6 +448,10 @@ export const App = () => {
     credentials: 'include',
   });
 
+// return a signal.abort()
+}, []);
+
+
   const handleMessage = event => {
     if (event && event.total_items_price) {
       const newTime = Date.now();
@@ -452,7 +461,7 @@ export const App = () => {
       total.current = total.current + totalGbpPrice;
       console.log(total.current);
       console.log(newTime - time);
-      if (newTime - time < 60000) {
+      if (newTime - time < 180000) {
         let newCountryState = [...defaultCountryState];
         newCountryState.forEach(country => {
           if (country.countryCode === countryCode) {
