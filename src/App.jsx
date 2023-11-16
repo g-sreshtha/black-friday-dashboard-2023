@@ -37,9 +37,9 @@ export const App = () => {
       let newWorldTotal = worldTotal + totalGbpPrice;
       setWorldTotal(newWorldTotal);
       console.log(newWorldTotal);
-      console.log(newTime - time);
+      //console.log(newTime - time);
       if (channel !== 'pmint') {
-        if (newTime - time < 60000) {
+        if (newTime - time < 180000) {
           let newCountryState = [...defaultCountryState];
           newCountryState.forEach(country => {
             if (country.countryCode === countryCode) {
