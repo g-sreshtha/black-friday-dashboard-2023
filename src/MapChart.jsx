@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   ComposableMap,
   Geographies,
@@ -12,7 +12,7 @@ import Tippy from '@tippyjs/react';
 const geoUrl = '/map.json';
 
 const colorScale = scaleLinear()
-  .domain([0, 10000])
+  .domain([0, 1000])
   .range(['#6ecbfa', '#0238fa']); // Between light blue and dark blue - can be changed to different colours
 
 export const MapChart = ({ defaultCountryData }) => {
