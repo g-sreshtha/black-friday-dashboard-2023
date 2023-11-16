@@ -2,7 +2,6 @@ import s from './App.styling.jsx';
 import React from 'react';
 import { MapChart } from './Mapchart.jsx';
 import BarChart from './newGraph.jsx';
-import b from './keystyles.jsx';
 import image from './colourscale.png';
 
 import { useState, useRef, useEffect } from 'react';
