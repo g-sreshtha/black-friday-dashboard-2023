@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
 
@@ -82,4 +82,4 @@ export const MapChart = ({ defaultCountryData }) => {
   );
 };
 
-export default MapChart;
+// export default { MapChart };
