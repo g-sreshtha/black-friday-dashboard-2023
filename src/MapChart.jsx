@@ -27,9 +27,9 @@ export const MapChart = ({ defaultCountryData }) => {
         <ComposableMap
           data-tip=""
           style={{
-            height: '90rem',
+            height: '80%',
             padding: '0px',
-            marginBottom: '-50px',
+            marginBottom: '0px',
           }}
         >
           {/* <Sphere stroke="#E4E5E6" strokeWidth={0.5} />

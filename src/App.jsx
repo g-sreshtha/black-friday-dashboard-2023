@@ -494,26 +494,28 @@ export const App = () => {
 
   return (
     <>
-      <s.heading>
-        <h1>
-          <span>The Lovelace Dashboard</span>
-        </h1>
-      </s.heading>
-      <div style={displayStyles}>
-        <img
-          style={{
-            borderRadius: '20px',
-            margin: '5px 100px',
-            height: '30rem',
-          }}
-          src={image}
-          alt="scale gradient"
-        />
-        <s.mapStyle>
-          <MapChart defaultCountryData={countryState} />
-        </s.mapStyle>
+      <div style={{ display: 'grid' }}>
+        <s.heading>
+          <h1>
+            <span>The Lovelace Dashboard</span>
+          </h1>
+        </s.heading>
+        <div style={displayStyles}>
+          <img
+            style={{
+              borderRadius: '20px',
+              margin: '5px 100px',
+              height: '30rem',
+            }}
+            src={image}
+            alt="scale gradient"
+          />
+          <s.mapStyle>
+            <MapChart defaultCountryData={countryState} />
+          </s.mapStyle>
+        </div>
+        <BarChart />
       </div>
-      {/* <BarChart /> */}
     </>
   );
 };

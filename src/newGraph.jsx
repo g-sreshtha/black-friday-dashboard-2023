@@ -52,10 +52,7 @@ const BarChart = () => {
     <>
       <div style={container}>
         <div>
-          <div style={container}>
-            <p>low revenue</p>
-            <p>high revenue</p>
-          </div>
+          <div style={container}></div>
           {/* <div style={buttons}>
             <button style={{ margin: '10px' }}>click me </button>
             <button style={{ margin: '10px' }}>click me </button>
