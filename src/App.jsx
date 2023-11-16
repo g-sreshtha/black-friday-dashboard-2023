@@ -1,6 +1,6 @@
 import MapChart from './MapChart.jsx';
 import s from './App.styling.jsx';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './newDataStructure.jsx';
 
@@ -8,21 +8,26 @@ const time = Date.now();
 export const App = () => {
   const [countryState, setCountryState] = useState(defaultCountryState);
   const [worldTotal, setWorldTotal] = useState(0);
-  //change to useState
   //const total = useRef(0);
-  fetchEventSource('https://accelerator.thgaccess.com/events', {
-    onmessage(event) {
-      let message = JSON.parse(event.data);
-      //console.log(message);
-      handleMessage(message);
-    },
-    onerror(e) {
-      console.error(e);
-    },
-    credentials: 'include',
-  });
 
-  //try to filter out load test orders coming in from pmint channel
+  useEffect(() => {
+    // TODO: abort controller stuff
+
+    fetchEventSource('https://accelerator.thgaccess.com/events', {
+      onmessage(event) {
+        let message = JSON.parse(event.data);
+        //console.log(message);
+        handleMessage(message);
+      },
+      onerror(e) {
+        console.error(e);
+      },
+      credentials: 'include',
+    });
+
+    // return a signal.abort()
+  }, []);
+
   const handleMessage = event => {
     if (event && event.total_items_price) {
       const newTime = Date.now();
@@ -32,7 +37,6 @@ export const App = () => {
       let newWorldTotal = worldTotal + totalGbpPrice;
       setWorldTotal(newWorldTotal);
       console.log(newWorldTotal);
-      //wrong!
       console.log(newTime - time);
       if (channel !== 'pmint') {
         if (newTime - time < 60000) {
@@ -42,7 +46,7 @@ export const App = () => {
               country.total = country.total + totalGbpPrice;
             }
           });
-          //console.log(channel);
+          console.log(channel);
           setCountryState(newCountryState);
           //console.log(countryCode)
           console.log(
@@ -65,7 +69,7 @@ export const App = () => {
         <h1>LoveLace Dashboard</h1>
       </s.heading>
       <s.mapStyle>
-        <MapChart />
+        <MapChart defaultCountryData={countryState} />
       </s.mapStyle>
     </>
   );

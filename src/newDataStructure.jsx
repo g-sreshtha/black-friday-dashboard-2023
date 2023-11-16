@@ -244,7 +244,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'BA',
-    countryName: 'Bosnia And Herzegovina',
+    countryName: 'Bosnia and Herzegovina',
     total: 0,
     div0: 0,
     div1: 0,
@@ -451,7 +451,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'CD',
-    countryName: 'Congo, Democratic Republic',
+    countryName: 'Democratic Republic of Congo',
     total: 0,
     div0: 0,
     div1: 0,
@@ -514,7 +514,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'CZ',
-    countryName: 'Czech Republic',
+    countryName: 'Czechia',
     total: 0,
     div0: 0,
     div1: 0,
@@ -605,6 +605,15 @@ export const defaultCountryState = [
   {
     countryCode: 'EE',
     countryName: 'Estonia',
+    total: 0,
+    div0: 0,
+    div1: 0,
+    div2: 0,
+    colour: 0,
+  },
+  {
+    countryCode: 'EE',
+    countryName: 'Eswatini',
     total: 0,
     div0: 0,
     div1: 0,
@@ -919,7 +928,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'IR',
-    countryName: 'Iran, Islamic Republic Of',
+    countryName: 'Iran',
     total: 0,
     div0: 0,
     div1: 0,
@@ -1035,6 +1044,15 @@ export const defaultCountryState = [
     colour: 0,
   },
   {
+    countryCode: 'XK',
+    countryName: 'Kosovo',
+    total: 0,
+    div0: 0,
+    div1: 0,
+    div2: 0,
+    colour: 0,
+  },
+  {
     countryCode: 'KR',
     countryName: 'Korea',
     total: 0,
@@ -1117,7 +1135,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'LY',
-    countryName: 'Libyan Arab Jamahiriya',
+    countryName: 'Libya',
     total: 0,
     div0: 0,
     div1: 0,
@@ -1162,7 +1180,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'MK',
-    countryName: 'Macedonia',
+    countryName: 'North Macedonia',
     total: 0,
     div0: 0,
     div1: 0,
@@ -1630,7 +1648,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'RU',
-    countryName: 'Russian Federation',
+    countryName: 'Russia',
     total: 0,
     div0: 0,
     div1: 0,
@@ -1842,6 +1860,24 @@ export const defaultCountryState = [
     div0: 0,
     div1: 0,
     div2: 0,
+    colour: 0,
+  },
+  {
+    countryCode: 'KR',
+    countryName: 'South Korea',
+    div0: 0,
+    div1: 0,
+    div2: 0,
+    total: 0,
+    colour: 0,
+  },
+  {
+    countryCode: 'SS',
+    countryName: 'South Sudan',
+    div0: 0,
+    div1: 0,
+    div2: 0,
+    total: 0,
     colour: 0,
   },
   {
