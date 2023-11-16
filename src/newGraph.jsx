@@ -54,13 +54,12 @@ const BarChart = () => {
         <div>
           <div style={container}>
             <p>low revenue</p>
-            <img src={image} alt="scale gradient" />
             <p>high revenue</p>
           </div>
-          <div style={buttons}>
+          {/* <div style={buttons}>
             <button style={{ margin: '10px' }}>click me </button>
             <button style={{ margin: '10px' }}>click me </button>
-          </div>
+          </div> */}
         </div>
         <div style={{ width: '400px', height: '300px' }}>
           <Bar data={data} options={options} />
