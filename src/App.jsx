@@ -7,7 +7,7 @@ import image from '/colourscale.png';
 import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './newDataStructure.jsx';
-import { getDivisionFromChannel } from './channelMapping.jsx';
+import { getDivisionFromChannel } from './ChannelMapping.jsx';
 
 const time = Date.now();
 export const App = () => {
