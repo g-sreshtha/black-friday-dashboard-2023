@@ -21,7 +21,6 @@ export const App = () => {
     fetchEventSource('https://accelerator.thgaccess.com/events', {
       onmessage(event) {
         let message = JSON.parse(event.data);
-        //console.log(message);
         handleMessage(message);
       },
       onerror(e) {
@@ -45,9 +44,9 @@ export const App = () => {
       //console.log(newTime - time);
       if (channel !== 'pmint') {
         if (newTime - time < 180000) {
-          console.log(channel);
+          //console.log(channel);
           setStateWorldTotal(stateWorldTotal => {
-            //console.log(stateWorldTotal);
+            console.log(stateWorldTotal);
             return stateWorldTotal + totalGbpPrice;
           });
           setCountryState(countryState => {
@@ -64,7 +63,7 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            //console.log(newCountryState[orderCountryIndex]);
+            console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {
