@@ -3,6 +3,7 @@ import React from 'react';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './newGraph.jsx';
 import image from '/colourscale.png';
+import { LineChart } from './lineGraph.jsx';
 
 import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
@@ -96,6 +97,7 @@ export const App = () => {
           </s.mapStyle>
         </div>
         <BarChart />
+        <LineChart />
       </div>
     </>
   );
