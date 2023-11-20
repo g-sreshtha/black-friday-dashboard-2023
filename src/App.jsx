@@ -79,7 +79,8 @@ export const App = () => {
               );
               newBrandState[orderBrandIndex].total += totalGbpPrice;
               console.log(newBrandState[orderBrandIndex]);
-              return newBrandState;
+              console.log(newBrandState.slice(0, 5));
+              return newBrandState.sort((a, b) => b.total - a.total);
             }
           });
           setCountryState(countryState => {
@@ -98,6 +99,10 @@ export const App = () => {
             //console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
+
+          // setTop5(brandState => {
+          //   return brandState.sort((a, b) => a.total - b.total).slice(0, 5);
+          // });
         } else {
           window.location.reload();
         }
