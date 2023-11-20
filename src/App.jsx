@@ -101,7 +101,7 @@ export const App = () => {
             alt="scale gradient"
           />
           <s.mapStyle>
-            <Tooltip id="myTooltip" opacity={1}>
+            <Tooltip style={{ fontSize: '18px' }} id="myTooltip" opacity={1}>
               {content}
             </Tooltip>
             <MapChart
