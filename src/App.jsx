@@ -52,7 +52,6 @@ export const App = () => {
       const found = channelMapping.some(el => el.channelName === channel);
       if (channel !== 'pmint' && found) {
         if (newTime - time < 180000) {
-          //console.log(channel);
           setStateWorldTotal(stateWorldTotal => {
             //console.log(stateWorldTotal);
             return {
@@ -62,7 +61,7 @@ export const App = () => {
           });
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            //console.log(newCategoryTotal);
+            console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
             );
@@ -70,7 +69,6 @@ export const App = () => {
             return newCategoryTotal;
           });
           setBrandState(brandState => {
-            //console.log(brandState);
             let newBrandState = JSON.parse(JSON.stringify(brandState));
             //console.log(newBrandState);
             if (channel !== null) {
@@ -78,7 +76,7 @@ export const App = () => {
                 brand => brand.channelName === channel,
               );
               newBrandState[orderBrandIndex].total += totalGbpPrice;
-              console.log(newBrandState[orderBrandIndex]);
+              //console.log(newBrandState[orderBrandIndex]);
               let newIndex = 0;
               newBrandState.slice(0, 5).forEach((element, index) => {
                 if (element.total !== 0) {
@@ -106,10 +104,6 @@ export const App = () => {
             //console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
-
-          // setTop5(brandState => {
-          //   return brandState.sort((a, b) => a.total - b.total).slice(0, 5);
-          // });
         } else {
           window.location.reload();
         }
