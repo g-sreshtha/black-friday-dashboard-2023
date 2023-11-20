@@ -47,8 +47,11 @@ export const App = () => {
 
     const hours = date.getHours();
     const mins = date.getMinutes();
+    const secs = date.getSeconds();
 
-    const formattedTime = `${hours}:${mins < 10 ? '0' : ''}${mins}`;
+    const formattedTime = `${hours}:${mins < 10 ? '0' : ''}${mins}:${
+      secs < 10 ? '0' : ''
+    }${secs}`;
     return formattedTime;
   };
 
