@@ -14,10 +14,12 @@ const time = Date.now();
 
 export const App = () => {
   const [countryState, setCountryState] = useState(defaultCountryState);
-  const [stateWorldTotal, setStateWorldTotal] = useState({
-    total: 0,
-    timestamp: Date.now(),
-  });
+  const [stateWorldTotal, setStateWorldTotal] = useState([
+    {
+      total: 0,
+      timestamp: Date.now(),
+    },
+  ]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -50,33 +52,33 @@ export const App = () => {
     return formattedTime;
   };
 
-  const renderCount = useRef([]);
-
-  useEffect(() => {
-    renderCount.current.push();
-    console.log(JSON.stringify(stateWorldTotal));
-  }, [stateWorldTotal]);
-  console.log(renderCount.current);
+  const sumTotals = totalGbpPrice => {
+    const newTotal =
+      stateWorldTotal.total !== undefined
+        ? (stateWorldTotal.total += totalGbpPrice)
+        : (stateWorldTotal.total = totalGbpPrice);
+    return newTotal;
+  };
 
   const handleMessage = event => {
     if (event && event.total_items_price.gbp_value) {
       const newTime = Date.now();
       //console.log(event);
       const totalGbpPrice = event.total_items_price.gbp_value;
+
       const channel = event.property.channel;
-      const division = getDivisionFromChannel(channel);
+
       const countryCode = event.shipping.country_code;
       //console.log(newTime - time);
       if (channel !== 'pmint') {
         if (newTime - time < 180000) {
           //console.log(channel);
-          setStateWorldTotal(stateWorldTotal => {
-            return {
-              total: stateWorldTotal.total + totalGbpPrice,
-              timestamp: convertTime(event.created_timestamp),
-            };
-          });
-
+          setStateWorldTotal(sumTotals(totalGbpPrice)); //will it save the timestamps ?
+          setStateWorldTotal(
+            (stateWorldTotal.timestamp = convertTime(event.created_timestamp)),
+          );
+          console.log(stateWorldTotal.timestamp);
+          const division = getDivisionFromChannel(channel);
           setCountryState(countryState => {
             //console.log(countryState);
             let newCountryState = JSON.parse(JSON.stringify(countryState));
@@ -101,6 +103,7 @@ export const App = () => {
       }
     }
   };
+
   const displayStyles = {
     display: 'flex',
     justifyContent: 'space-around',

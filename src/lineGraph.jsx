@@ -54,6 +54,8 @@ export const LineChart = ({ defaultWorldRevenue }) => {
 
   const arr = [{ total: 'x' }, { total: 'y' }];
 
+  //   const axisValues = [...defaultWorldRevenue, ]
+
   const data = {
     labels: arr.map(i => i.total), //label on x axis
     datasets: [

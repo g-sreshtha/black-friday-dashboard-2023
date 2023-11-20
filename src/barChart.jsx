@@ -22,6 +22,7 @@ const BarChart = ({ defaultCountryState }) => {
   const buttons = {
     display: 'flex',
     width: '100%',
+
     justifyContent: 'center',
     alignItems: 'center',
   };
