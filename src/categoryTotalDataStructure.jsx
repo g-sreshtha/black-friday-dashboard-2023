@@ -1,3 +1,5 @@
+//0 - nutrition, 1 - beauty, 2 - lifestyle
+
 export const defaultCategoryTotal = [
   {
     category: 0,
