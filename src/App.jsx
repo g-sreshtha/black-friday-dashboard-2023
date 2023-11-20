@@ -8,11 +8,13 @@ import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './newDataStructure.jsx';
 import { getDivisionFromChannel } from './ChannelMapping.jsx';
+import { Tooltip } from 'react-tooltip';
 
 const time = Date.now();
 export const App = () => {
   const [countryState, setCountryState] = useState(defaultCountryState);
   const [stateWorldTotal, setStateWorldTotal] = useState(0);
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -99,7 +101,13 @@ export const App = () => {
             alt="scale gradient"
           />
           <s.mapStyle>
-            <MapChart defaultCountryData={countryState} />
+            <Tooltip id="myTooltip" opacity={1}>
+              {content}
+            </Tooltip>
+            <MapChart
+              defaultCountryData={countryState}
+              setTooltipContent={setContent}
+            />
           </s.mapStyle>
         </div>
         <BarChart />
