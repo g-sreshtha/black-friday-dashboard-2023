@@ -14,7 +14,8 @@ const time = Date.now();
 export const App = () => {
   const [countryState, setCountryState] = useState(defaultCountryState);
   const [stateWorldTotal, setStateWorldTotal] = useState(0);
-  const [content, setContent] = useState('');
+  const [divisionContent, setDivisionContent] = useState('');
+  const [countryContent, setCountryContent] = useState('');
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -102,11 +103,14 @@ export const App = () => {
           />
           <s.mapStyle>
             <Tooltip style={{ fontSize: '18px' }} id="myTooltip" opacity={1}>
-              {content}
+              {countryContent}
+              <br />
+              {divisionContent}
             </Tooltip>
             <MapChart
               defaultCountryData={countryState}
-              setTooltipContent={setContent}
+              setTooltipDivisionContent={setDivisionContent}
+              setTooltipCountryContent={setCountryContent}
             />
           </s.mapStyle>
         </div>
