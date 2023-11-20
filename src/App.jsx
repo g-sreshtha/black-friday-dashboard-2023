@@ -18,7 +18,8 @@ export const App = () => {
     timestamp: Date.now(),
   });
   const [countryState, setCountryState] = useState(defaultCountryState);
-  const [content, setContent] = useState('');
+  const [divisionContent, setDivisionContent] = useState('');
+  const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
 
@@ -129,12 +130,15 @@ export const App = () => {
             alt="scale gradient"
           />
           <s.mapStyle>
-            <Tooltip id="myTooltip" opacity={1}>
-              {content}
+            <Tooltip style={{ fontSize: '18px' }} id="myTooltip" opacity={1}>
+              {countryContent}
+              <br />
+              {divisionContent}
             </Tooltip>
             <MapChart
               defaultCountryData={countryState}
-              setTooltipContent={setContent}
+              setTooltipDivisionContent={setDivisionContent}
+              setTooltipCountryContent={setCountryContent}
             />
           </s.mapStyle>
         </div>
