@@ -1747,7 +1747,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'ST',
-    countryName: 'Sao Tome And Principe',
+    countryName: 'Sao Tome and Principe',
     total: 0,
     div0: 0,
     div1: 0,
