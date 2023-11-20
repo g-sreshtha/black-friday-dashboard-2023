@@ -48,7 +48,8 @@ export const App = () => {
       const division = getDivisionFromChannel(channel);
       const countryCode = event.shipping.country_code;
       //console.log(newTime - time);
-      if (channel !== 'pmint') {
+      const found = channelMapping.some(el => el.channelName === channel);
+      if (channel !== 'pmint' && found) {
         if (newTime - time < 180000) {
           //console.log(channel);
           setStateWorldTotal(stateWorldTotal => {
@@ -59,9 +60,8 @@ export const App = () => {
             };
           });
           setCategoryTotal(categoryTotal => {
-            //console.log(categoryTotal);
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            console.log(newCategoryTotal);
+            //console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
             );
@@ -71,15 +71,17 @@ export const App = () => {
           setBrandState(brandState => {
             //console.log(brandState);
             let newBrandState = JSON.parse(JSON.stringify(brandState));
-            console.log(newBrandState);
-            const orderBrandIndex = newBrandState.findIndex(
-              brand => brand.channelName === channel,
-            );
-            newBrandState[orderBrandIndex].total += totalGbpPrice;
-            return newBrandState;
+            //console.log(newBrandState);
+            if ((channel !== null) | undefined) {
+              const orderBrandIndex = newBrandState.findIndex(
+                brand => brand.channelName === channel,
+              );
+              newBrandState[orderBrandIndex].total += totalGbpPrice;
+              console.log(newBrandState[orderBrandIndex]);
+              return newBrandState;
+            }
           });
           setCountryState(countryState => {
-            //console.log(countryState);
             let newCountryState = JSON.parse(JSON.stringify(countryState));
             const orderCountryIndex = newCountryState.findIndex(
               country => country.countryCode === countryCode,
@@ -92,7 +94,7 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            console.log(newCountryState[orderCountryIndex]);
+            //console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {

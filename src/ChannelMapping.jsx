@@ -4,6 +4,7 @@ export const channelMapping = [
   { channelName: 'exant', brandName: 'Exante', div: 0, total: 0 },
   { channelName: 'massint', brandName: 'Mass', div: 0, total: 0 },
   { channelName: 'myprotein', brandName: 'My Protein', div: 0, total: 0 },
+  { channelName: 'myvegan', brandName: 'My Vegan', div: 0, total: 0 },
   { channelName: 'myvitamins', brandName: 'My Vitamins', div: 0, total: 0 },
   { channelName: 'idealfit', brandName: 'IdealFit', div: 0, total: 0 },
   { channelName: 'idealshape', brandName: 'IdealShape', div: 0, total: 0 },
@@ -60,6 +61,7 @@ export const channelMapping = [
   { channelName: 'perriconemd', brandName: 'Perricone MD', div: 1, total: 0 },
   { channelName: 'andalounatur', brandName: '', div: 1, total: 0 },
   { channelName: 'percentpure', brandName: '', div: 1, total: 0 },
+  { channelName: 'mamamio', brandName: 'Mama Mio', div: 1, total: 0 },
   {
     channelName: 'growgorgeous',
     brandName: 'Grow Gorgeous',
@@ -314,6 +316,7 @@ export const channelMapping = [
   { channelName: 'lavazza', brandName: 'Lavazza', div: 2, total: 0 },
   { channelName: 'lorespresso', brandName: 'Lor Espresso', div: 2, total: 0 },
   { channelName: 'mypclothing', brandName: 'MP', div: 2, total: 0 },
+  { channelName: 'hale', brandName: 'Hale', div: 2, total: 0 },
 ];
 
 export function getDivisionFromChannel(channel) {
