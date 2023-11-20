@@ -1,19 +1,23 @@
 import s from './App.styling.jsx';
 import React from 'react';
 import { MapChart } from './MapChart.jsx';
-import BarChart from './newGraph.jsx';
+import BarChart from './barChart.jsx';
 import image from '/colourscale.png';
 import { LineChart } from './lineGraph.jsx';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './newDataStructure.jsx';
 import { getDivisionFromChannel } from './ChannelMapping.jsx';
 
 const time = Date.now();
+
 export const App = () => {
   const [countryState, setCountryState] = useState(defaultCountryState);
-  const [stateWorldTotal, setStateWorldTotal] = useState(0);
+  const [stateWorldTotal, setStateWorldTotal] = useState({
+    total: 0,
+    timestamp: Date.now(),
+  });
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -34,6 +38,26 @@ export const App = () => {
     return () => abortController.abort();
   }, []);
 
+  // info for lineGraph world total i.e timestamps + total revenue.
+  const convertTime = timeStamp => {
+    const timestampInMill = timeStamp * 1000;
+    const date = new Date(timestampInMill);
+
+    const hours = date.getHours();
+    const mins = date.getMinutes();
+
+    const formattedTime = `${hours}:${mins < 10 ? '0' : ''}${mins}`;
+    return formattedTime;
+  };
+
+  const renderCount = useRef([]);
+
+  useEffect(() => {
+    renderCount.current.push();
+    console.log(JSON.stringify(stateWorldTotal));
+  }, [stateWorldTotal]);
+  console.log(renderCount.current);
+
   const handleMessage = event => {
     if (event && event.total_items_price.gbp_value) {
       const newTime = Date.now();
@@ -47,9 +71,12 @@ export const App = () => {
         if (newTime - time < 180000) {
           //console.log(channel);
           setStateWorldTotal(stateWorldTotal => {
-            console.log(stateWorldTotal);
-            return stateWorldTotal + totalGbpPrice;
+            return {
+              total: stateWorldTotal.total + totalGbpPrice,
+              timestamp: convertTime(event.created_timestamp),
+            };
           });
+
           setCountryState(countryState => {
             //console.log(countryState);
             let newCountryState = JSON.parse(JSON.stringify(countryState));
@@ -104,7 +131,7 @@ export const App = () => {
           </s.mapStyle>
         </div>
         <BarChart />
-        <LineChart />
+        <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
       </div>
     </>
   );

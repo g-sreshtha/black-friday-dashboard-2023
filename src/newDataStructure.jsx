@@ -289,7 +289,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'BN',
-    countryName: 'Brunei Darussalam',
+    countryName: 'Brunei',
     total: 0,
     div0: 0,
     div1: 0,

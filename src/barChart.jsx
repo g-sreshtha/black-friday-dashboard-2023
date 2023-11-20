@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const BarChart = () => {
+const BarChart = ({ defaultCountryState }) => {
   const container = {
     display: 'flex',
     width: '100%',

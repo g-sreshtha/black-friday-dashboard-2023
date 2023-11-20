@@ -42,7 +42,7 @@ export const MapChart = ({ defaultCountryData }) => {
                     ? defaultCountryData.find(
                         data => data.countryName === geo.properties.name,
                       )
-                    : undefined;
+                    : undefined; // this
 
                 const fillColor = countryData
                   ? colorScale(countryData.total)
