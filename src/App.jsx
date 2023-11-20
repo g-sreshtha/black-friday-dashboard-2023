@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './countryDataStructure.jsx';
 import { getDivisionFromChannel } from './ChannelMapping.jsx';
+import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 
@@ -17,6 +18,7 @@ export const App = () => {
     timestamp: Date.now(),
   });
   const [countryState, setCountryState] = useState(defaultCountryState);
+  const [content, setContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
 
@@ -125,7 +127,13 @@ export const App = () => {
             alt="scale gradient"
           />
           <s.mapStyle>
-            <MapChart defaultCountryData={countryState} />
+            <Tooltip id="myTooltip" opacity={1}>
+              {content}
+            </Tooltip>
+            <MapChart
+              defaultCountryData={countryState}
+              setTooltipContent={setContent}
+            />
           </s.mapStyle>
         </div>
         <BarChart />
