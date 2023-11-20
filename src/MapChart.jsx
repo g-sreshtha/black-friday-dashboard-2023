@@ -5,8 +5,8 @@ import { scaleLinear } from 'd3-scale';
 const geoUrl = '/map.json';
 
 const colorScale = scaleLinear()
-  .domain([0, 9000])
-  .range(['#6ecbfa', '#0238fa']); // Between light blue and dark blue - can be changed to different colours
+  .domain([0, 3000])
+  .range(['#a6f6ff', '#0f00e0']); // Between light blue and dark blue - can be changed to different colours
 
 const ChartComponent = ({ defaultCountryData, setTooltipContent }) => {
   const updateTooltipContent = hoveredCountry => {
@@ -86,7 +86,7 @@ const ChartComponent = ({ defaultCountryData, setTooltipContent }) => {
                   onMouseLeave={handleMouseLeave}
                   style={{
                     hover: {
-                      fill: '#000000',
+                      fill: '#FFFFFF',
                       outline: 'none',
                     },
                   }}
