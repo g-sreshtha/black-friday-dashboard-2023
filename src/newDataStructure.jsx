@@ -1530,7 +1530,7 @@ export const defaultCountryState = [
     colour: 0,
   },
   {
-    countryCode: 'PS',
+    countryCode: 'PSX',
     countryName: 'Palestinian Territory, Occupied',
     total: 0,
     div0: 0,
@@ -1747,7 +1747,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'ST',
-    countryName: 'Sao Tome And Principe',
+    countryName: 'Sao Tome and Principe',
     total: 0,
     div0: 0,
     div1: 0,
@@ -2035,7 +2035,7 @@ export const defaultCountryState = [
   },
   {
     countryCode: 'TT',
-    countryName: 'Trinidad And Tobago',
+    countryName: 'Trinidad and Tobago',
     total: 0,
     div0: 0,
     div1: 0,

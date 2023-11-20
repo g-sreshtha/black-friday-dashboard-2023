@@ -46,7 +46,7 @@ export const MapChart = ({ defaultCountryData }) => {
 
                 const fillColor = countryData
                   ? colorScale(countryData.total)
-                  : '#F5F4F6';
+                  : '#6ecbfa';
                 return (
                   <Geography
                     key={geo.rsmKey}
