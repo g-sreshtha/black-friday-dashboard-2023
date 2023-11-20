@@ -5,10 +5,14 @@ import { scaleLinear } from 'd3-scale';
 const geoUrl = '/map.json';
 
 const colorScale = scaleLinear()
-  .domain([0, 9000])
-  .range(['#6ecbfa', '#0238fa']); // Between light blue and dark blue - can be changed to different colours
+  .domain([0, 3000])
+  .range(['#a6f6ff', '#0f00e0']); // Between light blue and dark blue - can be changed to different colours
 
-const ChartComponent = ({ defaultCountryData, setTooltipContent }) => {
+const ChartComponent = ({
+  defaultCountryData,
+  setTooltipDivisionContent,
+  setTooltipCountryContent,
+}) => {
   const updateTooltipContent = hoveredCountry => {
     const desiredData =
       defaultCountryData && defaultCountryData.length > 0
@@ -27,9 +31,11 @@ const ChartComponent = ({ defaultCountryData, setTooltipContent }) => {
       } else if (div2 > div1 && div2 > div0) {
         highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
       }
-      setTooltipContent(highestDiv);
+      setTooltipDivisionContent(highestDiv);
+      setTooltipCountryContent(hoveredCountry);
     } else {
-      setTooltipContent('');
+      setTooltipDivisionContent('');
+      setTooltipCountryContent('');
     }
   };
 
@@ -39,7 +45,8 @@ const ChartComponent = ({ defaultCountryData, setTooltipContent }) => {
   };
 
   const handleMouseLeave = () => {
-    setTooltipContent('');
+    setTooltipDivisionContent('');
+    setTooltipCountryContent('');
   };
 
   return (
@@ -86,7 +93,7 @@ const ChartComponent = ({ defaultCountryData, setTooltipContent }) => {
                   onMouseLeave={handleMouseLeave}
                   style={{
                     hover: {
-                      fill: '#000000',
+                      fill: '#FFFFFF',
                       outline: 'none',
                     },
                   }}
