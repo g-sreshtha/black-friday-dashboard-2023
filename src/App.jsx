@@ -25,7 +25,7 @@ export const App = () => {
   const [stateWorldTotal, setStateWorldTotal] = useState({
     [reduceToMinute(Date.now())]: 0.0,
   });
-  console.log(stateWorldTotal);
+  // console.log(stateWorldTotal);
   const [countryState, setCountryState] = useState(defaultCountryState);
   const [countryContent, setCountryContent] = useState('');
   const [divisionContent, setDivisionContent] = useState('');
@@ -71,17 +71,17 @@ export const App = () => {
           }
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
-          console.log(tempDict);
+          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
-          console.log(tempDict);
+          // console.log(tempDict);
           setStateWorldTotal(tempDict);
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            console.log(newCategoryTotal);
+            // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
             );
@@ -102,8 +102,21 @@ export const App = () => {
                 }
                 return newIndex;
               });
-              console.log(newBrandState.slice(0, newIndex + 1));
-              return newBrandState.sort((a, b) => b.total - a.total);
+              // console.log(newBrandState.slice(0, newIndex + 1));
+              newBrandState.sort((a, b) => b.total - a.total);
+              const tempDataStructure = [];
+              for (let i = 0; i <= 9; i++) {
+                const tempObject = {
+                  brandName: newBrandState[i].brandName,
+                  total: newBrandState[i].total,
+                };
+                tempDataStructure.push(tempObject);
+              }
+              tempDataStructure.sort((a, b) => b.total - a.total);
+
+              console.log(tempDataStructure);
+
+              return newBrandState;
             }
           });
           setCountryState(countryState => {
@@ -140,11 +153,9 @@ export const App = () => {
     <>
       <div style={{ display: 'grid' }}>
         <s.heading>
-          <div className="height">
-            <h1>
-              <span>The Lovelace Dashboard</span>
-            </h1>
-          </div>
+          <h1>
+            <span>The Lovelace Dashboard</span>
+          </h1>
         </s.heading>
         <div style={displayStyles}>
           <img
@@ -171,6 +182,7 @@ export const App = () => {
         </div>
         <BarChart categoryTotal={categoryTotal} />
         <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
+        <div></div>
       </div>
     </>
   );
