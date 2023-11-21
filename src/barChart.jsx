@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const BarChart = () => {
+const BarChart = ({ categoryTotal }) => {
   const container = {
     display: 'flex',
     width: '100%',
@@ -26,15 +26,21 @@ const BarChart = () => {
     alignItems: 'center',
   };
   const data = {
-    labels: ['Nutrition', 'Beauty', 'Lifestyle'],
+    labels: ['Ingenuity', 'Beauty', 'Nutrition', 'Lifestyle'], // y axis
     datasets: [
       {
         label: 'Top Divisions',
-        data: [10, 20, 30],
+        data: [
+          categoryTotal[3].categoryTotal,
+          categoryTotal[1].categoryTotal,
+          categoryTotal[0].categoryTotal,
+          categoryTotal[2].categoryTotal,
+        ],
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
+          'rgba(66, 72, 245, 0.5)',
+          'rgba(245, 66, 93, 0.5)',
+          'rgba(158, 245, 66, 0.5)',
+          'rgba(132, 66, 245, 0.5)',
         ],
         borderWidth: 1,
       },
@@ -52,10 +58,6 @@ const BarChart = () => {
       <div style={container}>
         <div>
           <div style={container}></div>
-          {/* <div style={buttons}>
-            <button style={{ margin: '10px' }}>click me </button>
-            <button style={{ margin: '10px' }}>click me </button>
-          </div> */}
         </div>
         <div style={{ width: '400px', height: '300px' }}>
           <Bar data={data} options={options} />
