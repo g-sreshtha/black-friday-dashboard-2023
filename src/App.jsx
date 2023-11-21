@@ -11,6 +11,7 @@ import { getDivisionFromChannel } from './ChannelMapping.jsx';
 import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
+import { Header } from './Header/Header.jsx';
 
 const time = Date.now();
 
@@ -152,15 +153,16 @@ export const App = () => {
   return (
     <>
       <div style={{ display: 'grid' }}>
-        <s.heading>
+        {/* <s.heading>
           <h1>
             <span>The Lovelace Dashboard</span>
           </h1>
-        </s.heading>
+        </s.heading> */}
+        <Header />
         <div style={displayStyles}>
           <img
             style={{
-              borderRadius: '20px',
+              borderRadius: '50px',
               margin: '0px 10px',
               height: '40vw',
             }}

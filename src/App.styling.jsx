@@ -7,7 +7,7 @@ const heading = styled.h1`
   align-items: center;
   height: 150px;
   weight: 100%;
-  margin-top: -20px;
+  margin-top: 20px;
   margin-bottom: -150px;
 `;
 
