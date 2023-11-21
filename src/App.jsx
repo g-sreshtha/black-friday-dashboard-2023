@@ -91,26 +91,26 @@ export const App = () => {
             newCategoryTotal[orderCategoryIndex].categoryTotal += totalGbpPrice;
             return newCategoryTotal;
           });
-          setBrandState(brandState => {
-            let newBrandState = JSON.parse(JSON.stringify(brandState));
-            //console.log(newBrandState);
-            if (channel !== null) {
-              const orderBrandIndex = newBrandState.findIndex(
-                brand => brand.channelName === channel,
-              );
-              newBrandState[orderBrandIndex].total += totalGbpPrice;
-              //console.log(newBrandState[orderBrandIndex]);
-              let newIndex = 0;
-              newBrandState.slice(0, 5).forEach((element, index) => {
-                if (element.total !== 0) {
-                  newIndex = index;
-                }
-                return newIndex;
-              });
-              console.log(newBrandState.slice(0, newIndex + 1));
-              return newBrandState.sort((a, b) => b.total - a.total);
-            }
-          });
+          // setBrandState(brandState => {
+          //   let newBrandState = JSON.parse(JSON.stringify(brandState));
+          //   //console.log(newBrandState);
+          //   if (channel !== null) {
+          //     const orderBrandIndex = newBrandState.findIndex(
+          //       brand => brand.channelName === channel,
+          //     );
+          //     newBrandState[orderBrandIndex].total += totalGbpPrice;
+          //     //console.log(newBrandState[orderBrandIndex]);
+          //     let newIndex = 0;
+          //     newBrandState.slice(0, 5).forEach((element, index) => {
+          //       if (element.total !== 0) {
+          //         newIndex = index;
+          //       }
+          //       return newIndex;
+          //     });
+          //     console.log(newBrandState.slice(0, newIndex + 1));
+          //     return newBrandState.sort((a, b) => b.total - a.total);
+          //   }
+          // });
           setCountryState(countryState => {
             let newCountryState = JSON.parse(JSON.stringify(countryState));
             const orderCountryIndex = newCountryState.findIndex(

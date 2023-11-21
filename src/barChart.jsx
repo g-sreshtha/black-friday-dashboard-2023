@@ -27,11 +27,11 @@ const BarChart = ({ defaultCountryState }) => {
     alignItems: 'center',
   };
   const data = {
-    labels: ['Nutrition', 'Beauty', 'Lifestyle'],
+    labels: ['Nutrition', 'Beauty', 'Lifestyle'], // y axis
     datasets: [
       {
         label: 'Top Divisions',
-        data: [10, 20, 30],
+        data: [10, 20, 30], //x axis
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -53,10 +53,6 @@ const BarChart = ({ defaultCountryState }) => {
       <div style={container}>
         <div>
           <div style={container}></div>
-          {/* <div style={buttons}>
-            <button style={{ margin: '10px' }}>click me </button>
-            <button style={{ margin: '10px' }}>click me </button>
-          </div> */}
         </div>
         <div style={{ width: '400px', height: '300px' }}>
           <Bar data={data} options={options} />
