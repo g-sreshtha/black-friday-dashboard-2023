@@ -21,14 +21,6 @@ ChartJS.register(
 );
 
 export const LineChart = ({ defaultWorldRevenue }) => {
-  //use a useref to not rerender the page on change
-  // const [timeStamps, setTimeStamps] = useState([])
-
-  // useEffect( () => {
-  //     const newStamps =
-
-  // })
-
   const options = {
     responive: true,
     plugins: {
@@ -50,25 +42,28 @@ export const LineChart = ({ defaultWorldRevenue }) => {
 
   //for the labels part i think you can do something along the lines of
 
-  // labels: defaultWorldRevenue.map(obj)=>
+  // labels: defaultWorldRevenue.map(obj) =>
 
-  const arr = [{ total: 'x' }, { total: 'y' }];
-
-  //   const axisValues = [...defaultWorldRevenue, ]
+  // const arr = [{ total: 'x' }, { total: 'y' }];
 
   const data = {
-    labels: arr.map(i => i.total), //label on x axis
+    labels: Object.keys(defaultWorldRevenue.stateWorldTotal).map(timestamp => {
+      const date = new Date(+timestamp);
+      return `${date.getHours()}:${date.getMinutes()}`;
+    }), //label on x axis
     datasets: [
       {
         label: 'current Set',
-        data: [defaultWorldRevenue.total], // label on y axis here would be world revenue total
+        data: Object.keys(defaultWorldRevenue.stateWorldTotal).map(
+          timestamp => defaultWorldRevenue.stateWorldTotal[timestamp],
+        ), // label on y axis here would be world revenue total
         borderColor: 'rgba(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         tension: 0.4,
       },
     ],
   };
-  // use a useeffect here
+
   return (
     <div style={{ width: '400px', height: '300px' }}>
       <Line data={data} options={options} />

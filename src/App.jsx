@@ -1,5 +1,5 @@
-import s from './App.styling.jsx';
 import React from 'react';
+import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
 import image from '/colourscale.png';
@@ -12,14 +12,22 @@ import { getDivisionFromChannel } from './ChannelMapping.jsx';
 
 const time = Date.now();
 
+const reduceToMinute = date => {
+  const minTime = new Date(date);
+  minTime.setSeconds(0);
+  minTime.setMilliseconds(0);
+  return minTime.getTime();
+};
+
 export const App = () => {
   const [countryState, setCountryState] = useState(defaultCountryState);
-  const [stateWorldTotal, setStateWorldTotal] = useState([
-    {
-      total: 0,
-      timestamp: Date.now(),
-    },
-  ]);
+  const [stateWorldTotal, setStateWorldTotal] = useState({
+    [reduceToMinute(Date.now())]: 0.0,
+  });
+
+  console.log(stateWorldTotal);
+
+  // const temp = [];
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -41,49 +49,73 @@ export const App = () => {
   }, []);
 
   // info for lineGraph world total i.e timestamps + total revenue.
-  const convertTime = timeStamp => {
-    const timestampInMill = timeStamp * 1000;
-    const date = new Date(timestampInMill);
+  // const convertTime = timeStamp => {
+  //   const timestampInMill = timeStamp * 1000;
+  //   const date = new Date(timestampInMill);
 
-    const hours = date.getHours();
-    const mins = date.getMinutes();
-    const secs = date.getSeconds();
+  //   const hours = date.getHours();
+  //   const mins = date.getMinutes();
+  //   const secs = date.getSeconds();
 
-    const formattedTime = `${hours}:${mins < 10 ? '0' : ''}${mins}:${
-      secs < 10 ? '0' : ''
-    }${secs}`;
-    return formattedTime;
-  };
-
-  const sumTotals = totalGbpPrice => {
-    const newTotal =
-      stateWorldTotal.total !== undefined
-        ? (stateWorldTotal.total += totalGbpPrice)
-        : (stateWorldTotal.total = totalGbpPrice);
-    return newTotal;
-  };
+  //   const formattedTime = `${hours}:${mins < 10 ? '0' : ''}${mins}:${
+  //     secs < 10 ? '0' : ''
+  //   }${secs}`;
+  //   return formattedTime;
+  // };
+  // // total earnings function
+  // const sumTotals = totalGbpPrice => {
+  //   const newTotal =
+  //     stateWorldTotal.total !== undefined
+  //       ? (stateWorldTotal.total += totalGbpPrice)
+  //       : (stateWorldTotal.total = totalGbpPrice);
+  //   return newTotal; //gives an error for some reason
+  // }; // this way is only adding the same thing 5 times
 
   const handleMessage = event => {
     if (event && event.total_items_price.gbp_value) {
       const newTime = Date.now();
-      //console.log(event);
+
       const totalGbpPrice = event.total_items_price.gbp_value;
-
       const channel = event.property.channel;
-
       const countryCode = event.shipping.country_code;
-      //console.log(newTime - time);
+      const division = getDivisionFromChannel(channel);
+
       if (channel !== 'pmint') {
         if (newTime - time < 180000) {
-          //console.log(channel);
-          setStateWorldTotal(sumTotals(totalGbpPrice)); //will it save the timestamps ?
-          setStateWorldTotal(
-            (stateWorldTotal.timestamp = convertTime(event.created_timestamp)),
-          );
-          console.log(stateWorldTotal.timestamp);
-          const division = getDivisionFromChannel(channel);
+          // add the new timestamp in
+          const tempDict = stateWorldTotal;
+
+          if (tempDict[reduceToMinute(newTime)] !== undefined) {
+            // do check for placeholder and add
+            tempDict[`${reduceToMinute(newTime)}`] += totalGbpPrice;
+          } else {
+            tempDict[`${reduceToMinute(newTime)}`] = totalGbpPrice;
+          }
+
+          // check if the dict goes more than 10 minutes back, if it does delete the oldest
+          const oldestTimestamp = Math.min(...Object.keys(tempDict));
+          console.log(tempDict);
+
+          if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
+            delete tempDict[oldestTimestamp];
+          }
+          console.log(tempDict);
+
+          setStateWorldTotal(tempDict);
+
+          // setStateWorldTotal({
+          //   total: sumTotals(totalGbpPrice),
+          // });
+
+          // setStateWorldTotal(
+          //   (stateWorldTotal.timestamp = convertTime(event.created_timestamp)),
+          // );
+          // temp.push(stateWorldTotal); // instead of pushing it may be better to make a copy??
+          // if (temp.length > 5) {
+          //   temp.shift();
+          // }
+
           setCountryState(countryState => {
-            //console.log(countryState);
             let newCountryState = JSON.parse(JSON.stringify(countryState));
             const orderCountryIndex = newCountryState.findIndex(
               country => country.countryCode === countryCode,
@@ -96,15 +128,16 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            console.log(newCountryState[orderCountryIndex]);
+            // console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {
           setCountryState(defaultCountryState);
-          window.location.reload();
+          window.location.reload(); //useless code
         }
       }
     }
+    // console.log(temp);
   };
 
   const displayStyles = {
