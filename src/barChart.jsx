@@ -26,19 +26,21 @@ const BarChart = ({ categoryTotal }) => {
     alignItems: 'center',
   };
   const data = {
-    labels: ['Nutrition', 'Beauty', 'Lifestyle'], // y axis
+    labels: ['Ingenuity', 'Beauty', 'Nutrition', 'Lifestyle'], // y axis
     datasets: [
       {
         label: 'Top Divisions',
         data: [
-          categoryTotal[0].categoryTotal,
+          categoryTotal[3].categoryTotal,
           categoryTotal[1].categoryTotal,
+          categoryTotal[0].categoryTotal,
           categoryTotal[2].categoryTotal,
         ],
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
+          'rgba(66, 72, 245, 0.5)',
+          'rgba(245, 66, 93, 0.5)',
+          'rgba(158, 245, 66, 0.5)',
+          'rgba(132, 66, 245, 0.5)',
         ],
         borderWidth: 1,
       },

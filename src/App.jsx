@@ -140,9 +140,11 @@ export const App = () => {
     <>
       <div style={{ display: 'grid' }}>
         <s.heading>
-          <h1>
-            <span>The Lovelace Dashboard</span>
-          </h1>
+          <div className="height">
+            <h1>
+              <span>The Lovelace Dashboard</span>
+            </h1>
+          </div>
         </s.heading>
         <div style={displayStyles}>
           <img
