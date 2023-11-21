@@ -1,4 +1,111 @@
-import React from 'react';
+
+
+  const data = {
+    labels: arr.map(i => i.total), //label on x axis
+    datasets: [
+      {
+        label: 'current Set',
+        data: [defaultWorldRevenue.total], // label on y axis here would be world revenue total
+        borderColor: 'rgba(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.4,
+      },
+    ],
+  };
+
+  return (
+    <div style={{ width: '400px', height: '300px' }}>
+      <Line data={data} options={options} />
+    </div>
+  );
+;
+
+
+
+
+  const data = {
+    labels: defaultWorldRevenue.map(i => i.timestamp), //label on x axis
+    datasets: [
+      {
+        label: 'current Set',
+        data: defaultWorldRevenue.map(j => j.total), // label on y axis here would be world revenue total
+        borderColor: 'rgba(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.4,
+      },
+    ],
+  };
+
+  return (
+    <div style={{ width: '400px', height: '300px' }}>
+      <Line data={data} options={options} />
+    </div>
+  );
+};
+
+ const sumTotals = totalGbpPrice => {
+    const newTotal =
+      stateWorldTotal.total !== undefined
+        ? (stateWorldTotal.total += totalGbpPrice)
+        : (stateWorldTotal.total = totalGbpPrice);
+    return newTotal; //gives an error for some reason 
+  }; wrong thing
+
+    const sumTotals = totalGbpPrice => {
+    const newTotal =
+      stateWorldTotal.total !== undefined
+        ? (stateWorldTotal.total += totalGbpPrice)
+        : totalGbpPrice;
+    return newTotal; //gives an error for some reason
+  }; // this way is only adding the same thing 5 times 
+
+
+
+  // info for lineGraph world total i.e timestamps + total revenue.
+  // const convertTime = timeStamp => {
+  //   const timestampInMill = timeStamp * 1000;
+  //   const date = new Date(timestampInMill);
+
+  //   const hours = date.getHours();
+  //   const mins = date.getMinutes();
+  //   const secs = date.getSeconds();
+
+  //   const formattedTime = `${hours}:${mins < 10 ? '0' : ''}${mins}:${
+  //     secs < 10 ? '0' : ''
+  //   }${secs}`;
+  //   return formattedTime;
+  // };
+  // // total earnings function
+  // const sumTotals = totalGbpPrice => {
+  //   const newTotal =
+  //     stateWorldTotal.total !== undefined
+  //       ? (stateWorldTotal.total += totalGbpPrice)
+  //       : (stateWorldTotal.total = totalGbpPrice);
+  //   return newTotal; //gives an error for some reason
+  // }; // this way is only adding the same thing 5 times
+
+
+
+
+          // setStateWorldTotal({
+          //   total: sumTotals(totalGbpPrice),
+          // });
+
+          // setStateWorldTotal(
+          //   (stateWorldTotal.timestamp = convertTime(event.created_timestamp)),
+          // );
+          // temp.push(stateWorldTotal); // instead of pushing it may be better to make a copy??
+          // if (temp.length > 5) {
+          //   temp.shift();
+          // }
+
+      //console.log(newTime - time);
+
+
+
+
+
+      import React from 'react';
 import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
@@ -145,27 +252,22 @@ export const App = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '20px',
-    width: '100px',
-    height: '30px',
   };
 
   return (
     <>
       <div style={{ display: 'grid' }}>
         <s.heading>
-          <div className="height">
-            <h1>
-              <span>The Lovelace Dashboard</span>
-            </h1>
-          </div>
+          <h1>
+            <span>The Lovelace Dashboard</span>
+          </h1>
         </s.heading>
         <div style={displayStyles}>
           <img
             style={{
               borderRadius: '20px',
-              margin: '0px 10px',
-              height: '40vw',
+              margin: '5px 100px',
+              height: '30rem',
             }}
             src={image}
             alt="scale gradient"
@@ -183,21 +285,89 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
-        <div style={displayStyles}>
-          <button style={buttonStyles} data-tooltip-id="my-tooltip">
-            ◕‿‿◕
-          </button>
-          <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
-            ◕‿◕
-          </button>
+        <div>
+          <a data-tooltip-id="my-tooltip">◕‿‿◕</a>
           <Tooltip id="my-tooltip">
             <LineChart defaultWorldRevenue={stateWorldTotal} />
-          </Tooltip>
-          <Tooltip id="my-tootltip2">
-            <BarChart categoryTotal={categoryTotal} />
           </Tooltip>
         </div>
       </div>
     </>
+  );
+};
+
+
+
+
+import { React, useRef } from 'react';
+import { Line } from 'react-chartjs-2';
+
+import {
+  Chart as ChartJS,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  CategoryScale,
+} from 'chart.js';
+
+ChartJS.register(
+  LinearScale,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  Title,
+  Tooltip,
+);
+
+export const LineChart = ({ defaultWorldRevenue }) => {
+  const options = {
+    responive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Total World Revenue',
+      },
+    },
+  };
+
+  // so you need now an array of length 5 to display all the points on the graph
+  // change the initial usestate of stateworldtotal to an array.
+  // when setting the new stateworldtotal, make sure to add the new data and take off the old data
+  // to give you a hint do something like this
+  // const temp = [...stateworldtotal, newdatadictionary]
+  // temp.shift() //to take the first value from the queue.
+  // setstateworldtotal(temp)
+  // THE ABOVE IS PSEUDOCODE, DONT TRY TO JUST COPY AND PASTE IT
+
+  //for the labels part i think you can do something along the lines of
+
+  // labels: defaultWorldRevenue.map(obj) =>
+
+  // const arr = [{ total: 'x' }, { total: 'y' }];
+
+  const data = {
+    labels: Object.keys(defaultWorldRevenue).map(timestamp => {
+      const date = new Date(+timestamp);
+      return `${date.getHours()}:${date.getMinutes()}`;
+    }), //label on x axis
+    datasets: [
+      {
+        label: 'current Set',
+        data: Object.keys(defaultWorldRevenue).map(
+          timestamp => defaultWorldRevenue[timestamp],
+        ), // label on y axis here would be world revenue total
+        borderColor: 'rgba(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.4,
+      },
+    ],
+  };
+
+  return (
+    <div style={{ width: '400px', height: '300px' }}>
+      <Line data={data} options={options} />
+    </div>
   );
 };

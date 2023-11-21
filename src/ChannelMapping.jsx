@@ -94,7 +94,7 @@ export const channelMapping = [
   // { channelName: 'babor', brandName: 'Babor', div: 1, total: 0 },
   // { channelName: 'watermans', brandName: 'Watermans Hair', div: 1, total: 0 },
   // { channelName: 'wella', brandName: 'Wella', div: 1, total: 0 },
-  // { channelName: 'cbeauty', brandName: 'Cult Beauty', div: 1, total: 0 },
+  { channelName: 'cbeauty', brandName: 'Cult Beauty', div: 1, total: 0 },
   // {
   //   channelName: 'revbeauty',
   //   brandName: 'Revolution Beauty',
@@ -318,6 +318,7 @@ export const channelMapping = [
   // { channelName: 'lorespresso', brandName: 'Lor Espresso', div: 2, total: 0 },
   { channelName: 'mypclothing', brandName: 'MP', div: 2, total: 0 },
   { channelName: 'hale', brandName: 'Hale', div: 2, total: 0 },
+  { channelName: 'ingenuity', brandName: 'THG Ingenuity', div: 3, total: 0 },
 ];
 
 export function getDivisionFromChannel(channel) {

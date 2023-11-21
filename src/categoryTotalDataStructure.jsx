@@ -13,4 +13,8 @@ export const defaultCategoryTotal = [
     category: 2,
     categoryTotal: 0,
   },
+  {
+    category: 3,
+    categoryTotal: 0,
+  },
 ];
