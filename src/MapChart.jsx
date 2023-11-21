@@ -1,6 +1,7 @@
-import React, { memo } from 'react';
+import { memo, useState } from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
+import { useAutomation } from './useAutomation';
 
 const geoUrl = '/map.json';
 
@@ -13,10 +14,12 @@ const ChartComponent = ({
   setTooltipDivisionContent,
   setTooltipCountryContent,
 }) => {
-  const updateTooltipContent = hoveredCountry => {
+  const [component, setComponent] = useState(null);
+
+  const getHighestDivision = country => {
     const desiredData =
       defaultCountryData && defaultCountryData.length > 0
-        ? defaultCountryData.find(data => data.countryName === hoveredCountry)
+        ? defaultCountryData.find(data => data.countryName === country)
         : undefined;
     if (desiredData) {
       const div0 = desiredData.div0;
@@ -30,14 +33,50 @@ const ChartComponent = ({
         highestDiv = `Beauty: £${div1.toFixed(0)}`;
       } else if (div2 > div1 && div2 > div0) {
         highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
+      } else {
+        highestDiv = '';
       }
-      setTooltipDivisionContent(highestDiv);
+      return highestDiv;
+    }
+  };
+
+  const updateTooltipContent = hoveredCountry => {
+    if (getHighestDivision(hoveredCountry) !== '') {
+      setTooltipDivisionContent(getHighestDivision(hoveredCountry));
       setTooltipCountryContent(hoveredCountry);
     } else {
       setTooltipDivisionContent('');
-      setTooltipCountryContent('');
+      setTooltipCountryContent(hoveredCountry);
     }
   };
+  const handleCyledCountry = countryNameToShow => {
+    const countryGeos = {
+      'United Kingdom': 'geo-56',
+      'United States': 'geo-164',
+      France: 'geo-53',
+      Germany: 'geo-39',
+      Italy: 'geo-77',
+      Spain: 'geo-48',
+      Australia: 'geo-7',
+    };
+    const id = countryGeos[countryNameToShow];
+    console.log(id, countryNameToShow);
+    const country = document.getElementById(id);
+    if (country) {
+      const position = country.getBoundingClientRect();
+      const countryStructure = {};
+      countryStructure['name'] = countryNameToShow;
+      countryStructure['right'] = position.right;
+      countryStructure['bottom'] = position.bottom;
+      countryStructure['highestDiv'] = getHighestDivision(countryNameToShow);
+      console.log(countryStructure);
+      setComponent(countryStructure);
+    } else {
+      setComponent(null);
+    }
+  };
+
+  useAutomation(handleCyledCountry);
 
   const handleMouseEnter = geo => {
     const countryName = geo.properties.name;
@@ -50,60 +89,80 @@ const ChartComponent = ({
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: 'transparent',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <ComposableMap
-        data-tip=""
+    <>
+      <div
         style={{
-          height: '80%',
-          padding: '0px',
-          marginBottom: '0px',
+          backgroundColor: 'transparent',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map(geo => {
-              const countryData =
-                defaultCountryData && defaultCountryData.length > 0
-                  ? defaultCountryData.find(
-                      data => data.countryName === geo.properties.name,
-                    )
-                  : undefined;
+        <ComposableMap
+          data-tip=""
+          style={{
+            height: '80%',
+            padding: '0px',
+            marginBottom: '0px',
+          }}
+        >
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map(geo => {
+                const countryData =
+                  defaultCountryData && defaultCountryData.length > 0
+                    ? defaultCountryData.find(
+                        data => data.countryName === geo.properties.name,
+                      )
+                    : undefined;
 
-              const fillColor = countryData
-                ? colorScale(countryData.total)
-                : '#6ecbfa';
-              return (
-                <Geography
-                  data-tooltip-id="myTooltip"
-                  key={geo.rsmKey}
-                  geography={geo}
-                  id={geo.rsmKey}
-                  fill={fillColor}
-                  onMouseEnter={() => {
-                    handleMouseEnter(geo);
-                  }}
-                  onMouseLeave={handleMouseLeave}
-                  style={{
-                    hover: {
-                      fill: '#FFFFFF',
-                      outline: 'none',
-                    },
-                  }}
-                />
-              );
-            })
-          }
-        </Geographies>
-      </ComposableMap>
-    </div>
+                const fillColor = countryData
+                  ? colorScale(countryData.total)
+                  : '#6ecbfa';
+                return (
+                  <Geography
+                    data-tooltip-id="myTooltip"
+                    key={geo.rsmKey}
+                    geography={geo}
+                    id={geo.rsmKey}
+                    fill={fillColor}
+                    onMouseEnter={() => {
+                      handleMouseEnter(geo);
+                    }}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      hover: {
+                        fill: '#FFFFFF',
+                        outline: 'none',
+                      },
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ComposableMap>
+      </div>
+      {component && (
+        <div
+          style={{
+            left: component.right,
+            top: component.bottom,
+            position: 'fixed',
+            color: 'white',
+            backgroundColor: 'rgba(0,0,0, .8)',
+            padding: '0.3rem',
+            textAlign: 'center',
+            fontFamily: 'sans-serif',
+          }}
+        >
+          {component.name}
+          <br />
+          {component.highestDiv}
+        </div>
+      )}
+    </>
   );
 };
 export const MapChart = memo(ChartComponent);

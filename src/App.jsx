@@ -49,7 +49,7 @@ export const App = () => {
         if (newTime - time < 180000) {
           //console.log(channel);
           setStateWorldTotal(stateWorldTotal => {
-            console.log(stateWorldTotal);
+            // console.log(stateWorldTotal);
             return stateWorldTotal + totalGbpPrice;
           });
           setCountryState(countryState => {
@@ -66,7 +66,7 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            console.log(newCountryState[orderCountryIndex]);
+            // console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {
@@ -102,7 +102,11 @@ export const App = () => {
             alt="scale gradient"
           />
           <s.mapStyle>
-            <Tooltip style={{ fontSize: '18px' }} id="myTooltip" opacity={1}>
+            <Tooltip
+              style={{ fontSize: '18px', fontFamily: 'sans-serif' }}
+              id="myTooltip"
+              opacity={1}
+            >
               {countryContent}
               <br />
               {divisionContent}
