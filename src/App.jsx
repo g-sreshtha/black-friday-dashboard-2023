@@ -142,6 +142,12 @@ export const App = () => {
     width: '90%',
   };
 
+  const buttonStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center ',
+  };
+
   return (
     <>
       <div style={{ display: 'grid' }}>
@@ -173,8 +179,16 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
+        <div style={buttonStyles}>
+          <button
+            style={{ borderRadius: '20px', width: '100px', height: '30px' }}
+          >
+            hello
+          </button>
+        </div>
         <BarChart />
         <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
+        <Tooltip anchorSelect="#testTooltip" content="#linegraph"></Tooltip>
       </div>
     </>
   );
