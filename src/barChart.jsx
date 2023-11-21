@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const BarChart = ({ defaultCountryState }) => {
+const BarChart = ({ categoryTotal }) => {
   const container = {
     display: 'flex',
     width: '100%',
@@ -22,7 +22,6 @@ const BarChart = ({ defaultCountryState }) => {
   const buttons = {
     display: 'flex',
     width: '100%',
-
     justifyContent: 'center',
     alignItems: 'center',
   };
@@ -31,7 +30,11 @@ const BarChart = ({ defaultCountryState }) => {
     datasets: [
       {
         label: 'Top Divisions',
-        data: [10, 20, 30], //x axis
+        data: [
+          // categoryTotal[0].categoryTotal,
+          // categoryTotal[1].categoryTotal,
+          // categoryTotal[2].categoryTotal,
+        ],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',

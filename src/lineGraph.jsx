@@ -47,15 +47,15 @@ export const LineChart = ({ defaultWorldRevenue }) => {
   // const arr = [{ total: 'x' }, { total: 'y' }];
 
   const data = {
-    labels: Object.keys(defaultWorldRevenue.stateWorldTotal).map(timestamp => {
+    labels: Object.keys(defaultWorldRevenue).map(timestamp => {
       const date = new Date(+timestamp);
       return `${date.getHours()}:${date.getMinutes()}`;
     }), //label on x axis
     datasets: [
       {
         label: 'current Set',
-        data: Object.keys(defaultWorldRevenue.stateWorldTotal).map(
-          timestamp => defaultWorldRevenue.stateWorldTotal[timestamp],
+        data: Object.keys(defaultWorldRevenue).map(
+          timestamp => defaultWorldRevenue[timestamp],
         ), // label on y axis here would be world revenue total
         borderColor: 'rgba(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
