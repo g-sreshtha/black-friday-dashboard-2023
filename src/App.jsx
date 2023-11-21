@@ -129,8 +129,8 @@ export const App = () => {
           <img
             style={{
               borderRadius: '20px',
-              margin: '5px 100px',
-              height: '30rem',
+              margin: '0px 10px',
+              height: '40vw',
             }}
             src={image}
             alt="scale gradient"
@@ -148,7 +148,7 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
-        <BarChart />
+        <BarChart categoryTotal={categoryTotal} />
       </div>
     </>
   );

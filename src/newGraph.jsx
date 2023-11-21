@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const BarChart = () => {
+const BarChart = ({ categoryTotal }) => {
   const container = {
     display: 'flex',
     width: '100%',
@@ -30,7 +30,11 @@ const BarChart = () => {
     datasets: [
       {
         label: 'Top Divisions',
-        data: [10, 20, 30],
+        data: [
+          categoryTotal[0].categoryTotal,
+          categoryTotal[1].categoryTotal,
+          categoryTotal[2].categoryTotal,
+        ],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
