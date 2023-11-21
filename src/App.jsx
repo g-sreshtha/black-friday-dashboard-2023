@@ -1,8 +1,9 @@
-import s from './App.styling.jsx';
 import React from 'react';
+import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
-import BarChart from './newGraph.jsx';
+import BarChart from './barChart.jsx';
 import image from '/colourscale.png';
+import { LineChart } from './lineGraph.jsx';
 import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './countryDataStructure.jsx';
@@ -12,14 +13,22 @@ import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 
 const time = Date.now();
+
+const reduceToMinute = date => {
+  const minTime = new Date(date);
+  minTime.setSeconds(0);
+  minTime.setMilliseconds(0);
+  return minTime.getTime();
+};
+
 export const App = () => {
   const [stateWorldTotal, setStateWorldTotal] = useState({
-    total: 0,
-    timestamp: Date.now(),
+    [reduceToMinute(Date.now())]: 0.0,
   });
+  console.log(stateWorldTotal);
   const [countryState, setCountryState] = useState(defaultCountryState);
-  const [divisionContent, setDivisionContent] = useState('');
   const [countryContent, setCountryContent] = useState('');
+  const [divisionContent, setDivisionContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
 
@@ -47,18 +56,29 @@ export const App = () => {
       const totalGbpPrice = event.total_items_price.gbp_value;
       const channel = event.property.channel;
       const division = getDivisionFromChannel(channel);
-      const countryCode = event.shipping.country_code;
-      //console.log(newTime - time);
       const found = channelMapping.some(el => el.channelName === channel);
+      const countryCode = event.shipping.country_code;
+
       if (channel !== 'pmint' && found) {
         if (newTime - time < 180000) {
-          setStateWorldTotal(stateWorldTotal => {
-            //console.log(stateWorldTotal);
-            return {
-              total: stateWorldTotal.total + totalGbpPrice,
-              //timestamp: convertTime(event.created_timestamp),
-            };
-          });
+          // add the new timestamp in
+          const tempDict = stateWorldTotal;
+          if (tempDict[reduceToMinute(newTime)] !== undefined) {
+            // do check for placeholder and add
+            tempDict[`${reduceToMinute(newTime)}`] += totalGbpPrice;
+          } else {
+            tempDict[`${reduceToMinute(newTime)}`] = totalGbpPrice;
+          }
+          // check if the dict goes more than 10 minutes back, if it does delete the oldest
+          const oldestTimestamp = Math.min(...Object.keys(tempDict));
+          console.log(tempDict);
+
+          if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
+            delete tempDict[oldestTimestamp];
+          }
+          console.log(tempDict);
+          setStateWorldTotal(tempDict);
+
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
             console.log(newCategoryTotal);
@@ -70,13 +90,11 @@ export const App = () => {
           });
           setBrandState(brandState => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
-            //console.log(newBrandState);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
               newBrandState[orderBrandIndex].total += totalGbpPrice;
-              //console.log(newBrandState[orderBrandIndex]);
               let newIndex = 0;
               newBrandState.slice(0, 5).forEach((element, index) => {
                 if (element.total !== 0) {
@@ -101,7 +119,7 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            //console.log(newCountryState[orderCountryIndex]);
+            // console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {
@@ -110,6 +128,7 @@ export const App = () => {
       }
     }
   };
+
   const displayStyles = {
     display: 'flex',
     justifyContent: 'space-around',
@@ -149,6 +168,7 @@ export const App = () => {
           </s.mapStyle>
         </div>
         <BarChart categoryTotal={categoryTotal} />
+        <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
       </div>
     </>
   );

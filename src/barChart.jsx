@@ -26,7 +26,7 @@ const BarChart = ({ categoryTotal }) => {
     alignItems: 'center',
   };
   const data = {
-    labels: ['Nutrition', 'Beauty', 'Lifestyle'],
+    labels: ['Nutrition', 'Beauty', 'Lifestyle'], // y axis
     datasets: [
       {
         label: 'Top Divisions',
@@ -56,10 +56,6 @@ const BarChart = ({ categoryTotal }) => {
       <div style={container}>
         <div>
           <div style={container}></div>
-          {/* <div style={buttons}>
-            <button style={{ margin: '10px' }}>click me </button>
-            <button style={{ margin: '10px' }}>click me </button>
-          </div> */}
         </div>
         <div style={{ width: '400px', height: '300px' }}>
           <Bar data={data} options={options} />
