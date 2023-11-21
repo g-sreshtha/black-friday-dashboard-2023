@@ -1,14 +1,22 @@
 body {
   background-color: #2b2b2b;
 }
-
+/* .height {
+  height: 9vh;
+} */
 h1 {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
   color: hsl(0, 0%, 28%);
-  font-size: 50px;
+  font-size: 4vw;
   font-weight: bold;
   font-family: monospace;
   letter-spacing: 7px;
   cursor: pointer;
+  /* padding: -10px; */
+  margin: 10px 0px;
 }
 
 h1 span {
@@ -29,4 +37,10 @@ h1:hover span {
     0 0 10px #fff,
     0 0 20px #fff,
     0 0 40px #fff;
+}
+
+svg {
+  all: unset;
+  width: 70%;
+  height: 80%;
 }

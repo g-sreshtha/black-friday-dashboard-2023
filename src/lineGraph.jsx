@@ -31,25 +31,10 @@ export const LineChart = ({ defaultWorldRevenue }) => {
     },
   };
 
-  // so you need now an array of length 5 to display all the points on the graph
-  // change the initial usestate of stateworldtotal to an array.
-  // when setting the new stateworldtotal, make sure to add the new data and take off the old data
-  // to give you a hint do something like this
-  // const temp = [...stateworldtotal, newdatadictionary]
-  // temp.shift() //to take the first value from the queue.
-  // setstateworldtotal(temp)
-  // THE ABOVE IS PSEUDOCODE, DONT TRY TO JUST COPY AND PASTE IT
-
-  //for the labels part i think you can do something along the lines of
-
-  // labels: defaultWorldRevenue.map(obj) =>
-
-  // const arr = [{ total: 'x' }, { total: 'y' }];
-
   const data = {
     labels: Object.keys(defaultWorldRevenue).map(timestamp => {
       const date = new Date(+timestamp);
-      return `${date.getHours()}:${date.getMinutes()}`;
+      return `${date.getHours()}:${date.getMinutes()}`; // fix the formatting!! 11:07 instead of 11:7 etc
     }), //label on x axis
     datasets: [
       {
@@ -65,7 +50,7 @@ export const LineChart = ({ defaultWorldRevenue }) => {
   };
 
   return (
-    <div style={{ width: '400px', height: '300px' }}>
+    <div style={{ width: '700px', height: '100%' }}>
       <Line data={data} options={options} />
     </div>
   );

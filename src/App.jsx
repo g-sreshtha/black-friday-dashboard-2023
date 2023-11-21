@@ -135,41 +135,37 @@ export const App = () => {
     }
   };
 
+  //inline styles
   const displayStyles = {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    width: '90%',
   };
   const buttonStyles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '20px',
-    width: '100px',
-    height: '30px',
+    width: '200px',
+    height: '35px',
+  };
+  const imageStyles = {
+    borderRadius: '20px',
+    margin: '0px 10px 10px 30px ',
+    height: '30vw',
   };
 
   return (
     <>
       <div style={{ display: 'grid' }}>
-        <s.heading>
-          <div className="height">
-            <h1>
-              <span>The Lovelace Dashboard</span>
-            </h1>
-          </div>
-        </s.heading>
+        <div className="height">
+          <h1>
+            <span>The Lovelace Dashboard</span>
+          </h1>
+        </div>
+
         <div style={displayStyles}>
-          <img
-            style={{
-              borderRadius: '20px',
-              margin: '0px 10px',
-              height: '40vw',
-            }}
-            src={image}
-            alt="scale gradient"
-          />
+          <img style={imageStyles} src={image} alt="scale gradient" />
           <s.mapStyle>
             <Tooltip style={{ fontSize: '18px' }} id="myTooltip" opacity={1}>
               {countryContent}
@@ -177,13 +173,14 @@ export const App = () => {
               {divisionContent}
             </Tooltip>
             <MapChart
+              id="Map"
               defaultCountryData={countryState}
               setTooltipDivisionContent={setDivisionContent}
               setTooltipCountryContent={setCountryContent}
             />
           </s.mapStyle>
         </div>
-        <div style={displayStyles}>
+        <div style={{ ...displayStyles, marginBottom: '40px' }}>
           <button style={buttonStyles} data-tooltip-id="my-tooltip">
             ◕‿‿◕
           </button>

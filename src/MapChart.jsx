@@ -62,7 +62,6 @@ const ChartComponent = ({
       <ComposableMap
         data-tip=""
         style={{
-          height: '80%',
           padding: '0px',
           marginBottom: '0px',
         }}

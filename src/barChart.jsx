@@ -59,7 +59,7 @@ const BarChart = ({ categoryTotal }) => {
         <div>
           <div style={container}></div>
         </div>
-        <div style={{ width: '400px', height: '300px' }}>
+        <div style={{ width: '700px', height: '300px' }}>
           <Bar data={data} options={options} />
         </div>
       </div>
