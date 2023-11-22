@@ -12,7 +12,7 @@ import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 import { Header } from './Header/Header.jsx';
-
+import './Background/background.css';
 const time = Date.now();
 
 const reduceToMinute = date => {
@@ -140,11 +140,6 @@ export const App = () => {
   return (
     <>
       <div style={{ display: 'grid' }}>
-        {/* <s.heading>
-          <h1>
-            <span>The Lovelace Dashboard</span>
-          </h1>
-        </s.heading> */}
         <Header />
         <div style={displayStyles}>
           <img
@@ -176,6 +171,10 @@ export const App = () => {
           <ul>{top10brands}</ul>
         </div>
       </div>
+      <video autoPlay muted loop id="video-background">
+        <source src="pexels_videos_2611250 (2160p).mp4" type="video/mp4" />
+        Your Browser Type is not supported
+      </video>
     </>
   );
 };
