@@ -40,9 +40,9 @@ const BarChart = ({ categoryTotal }) => {
           'rgba(66, 72, 245, 0.5)',
           'rgba(245, 66, 93, 0.5)',
           'rgba(158, 245, 66, 0.5)',
-          'rgba(132, 66, 245, 0.5)',
+          'rgba(255, 99, 132)',
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
@@ -51,6 +51,38 @@ const BarChart = ({ categoryTotal }) => {
     indexAxis: 'y',
     maintainAspectRatio: false,
     responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Top Divisions',
+        color: 'white',
+      },
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Divisions',
+          color: 'white',
+        },
+        ticks: {
+          color: 'white',
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Total Revenue in £',
+          color: 'white',
+        },
+        ticks: {
+          color: 'white',
+        },
+      },
+    },
   };
 
   return (
@@ -59,7 +91,7 @@ const BarChart = ({ categoryTotal }) => {
         <div>
           <div style={container}></div>
         </div>
-        <div style={{ width: '700px', height: '300px' }}>
+        <div style={{ width: '700px', height: '300px', color: 'white' }}>
           <Bar data={data} options={options} />
         </div>
       </div>

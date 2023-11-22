@@ -4,7 +4,7 @@ import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
 import image from '/colourscale.png';
 import { LineChart } from './lineGraph.jsx';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './countryDataStructure.jsx';
 import { getDivisionFromChannel } from './ChannelMapping.jsx';
@@ -33,6 +33,15 @@ export const App = () => {
   const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
+  const [open, setOpen] = useState(false);
+
+  const handleEnter = () => {
+    setOpen(true);
+    // needs set interval
+    setTimeout(() => {
+      setOpen(false);
+    }, 120000);
+  };
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -180,17 +189,41 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
-        <div style={{ ...displayStyles, marginBottom: '40px' }}>
-          <button style={buttonStyles} data-tooltip-id="my-tooltip">
+        <div
+          style={{ ...displayStyles, marginBottom: '40px' }}
+          className="button-container"
+        >
+          <button
+            style={buttonStyles}
+            data-tooltip-id="my-tooltip"
+            onClick={handleEnter}
+          >
             ◕‿‿◕
           </button>
-          <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
+          <button
+            data-tooltip-id="my-tootltip2"
+            style={buttonStyles}
+            onClick={handleEnter}
+          >
             ◕‿◕
           </button>
-          <Tooltip id="my-tooltip">
+          <Tooltip
+            id="my-tooltip"
+            opacity={0.98}
+            isOpen={open}
+            openOnClick={['click']}
+            className="tooltip-rounded"
+          >
             <LineChart defaultWorldRevenue={stateWorldTotal} />
           </Tooltip>
-          <Tooltip id="my-tootltip2">
+
+          <Tooltip
+            id="my-tootltip2"
+            opacity={0.98}
+            isOpen={open}
+            openOnClick={['click']}
+            className="tooltip-rounded"
+          >
             <BarChart categoryTotal={categoryTotal} />
           </Tooltip>
         </div>

@@ -27,6 +27,32 @@ export const LineChart = ({ defaultWorldRevenue }) => {
       title: {
         display: true,
         text: 'Total World Revenue',
+        color: 'white',
+      },
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Revenue in £',
+          color: 'white',
+        },
+        ticks: {
+          color: 'white', // Set the color for the y-axis tick labels
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Timestamp in hh:mm',
+          color: 'white',
+        },
+        ticks: {
+          color: 'white', // Set the color for the y-axis tick labels
+        },
       },
     },
   };
@@ -34,11 +60,14 @@ export const LineChart = ({ defaultWorldRevenue }) => {
   const data = {
     labels: Object.keys(defaultWorldRevenue).map(timestamp => {
       const date = new Date(+timestamp);
-      return `${date.getHours()}:${date.getMinutes()}`; // fix the formatting!! 11:07 instead of 11:7 etc
+      const formattedTime = `${date.getHours()}:${
+        date.getMinutes() < 10 ? '0' : ''
+      }${date.getMinutes()}`;
+      return formattedTime; // fix the formatting!! 11:07 instead of 11:7 etc
     }), //label on x axis
     datasets: [
       {
-        label: 'current Set',
+        label: 'revenue over time',
         data: Object.keys(defaultWorldRevenue).map(
           timestamp => defaultWorldRevenue[timestamp],
         ), // label on y axis here would be world revenue total

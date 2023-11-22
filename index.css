@@ -15,7 +15,6 @@ h1 {
   font-family: monospace;
   letter-spacing: 7px;
   cursor: pointer;
-  /* padding: -10px; */
   margin: 10px 0px;
 }
 
@@ -43,4 +42,13 @@ svg {
   all: unset;
   width: 70%;
   height: 80%;
+}
+
+button {
+  cursor: pointer;
+}
+
+.button-container .tooltip-rounded {
+  border-radius: 30px;
+  color: white;
 }
