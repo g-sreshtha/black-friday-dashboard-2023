@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
@@ -21,14 +21,38 @@ const reduceToMinute = date => {
   return minTime.getTime();
 };
 
+const countryGeos = {
+  'United Kingdom': 'geo-56',
+  'United States': 'geo-164',
+  France: 'geo-53',
+  Germany: 'geo-39',
+  Italy: 'geo-77',
+  Spain: 'geo-48',
+  Australia: 'geo-7',
+  Japan: 'geo-80',
+};
+
+const countryArray = [
+  'United Kingdom',
+  'United States',
+  'France',
+  'Germany',
+  'Italy',
+  'Spain',
+  'Australia',
+  'Japan',
+];
+
 export const App = () => {
-  const [countryState, setCountryState] = useState(defaultCountryState);
+  // Get the data required
+  // Coordinate which tooltip to show on hover
+  // Coordinate which random badge / box to show when intervals in seconds have passed
+
   const [stateWorldTotal, setStateWorldTotal] = useState({
     [reduceToMinute(Date.now())]: 0.0,
   });
-
   console.log(stateWorldTotal);
-
+  const [countryState, setCountryState] = useState(defaultCountryState);
   const [divisionContent, setDivisionContent] = useState('');
   const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
@@ -42,6 +66,9 @@ export const App = () => {
       setOpen(false);
     }, 120000);
   };
+  const [automationData, setAutomationData] = useState(null);
+  const currentCountryIndex = useRef(0);
+  const [currentCountry, setCurrentCountry] = useState(null);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -59,6 +86,96 @@ export const App = () => {
     });
     return () => abortController.abort();
   }, []);
+
+  const getHighestDivision = useCallback(
+    country => {
+      const desiredData = countryState?.find(
+        data => data.countryName === country,
+      );
+
+      if (desiredData) {
+        const div0 = desiredData.div0;
+        const div1 = desiredData.div1;
+        const div2 = desiredData.div2;
+        const div3 = desiredData.div3;
+
+        let highestDiv = '';
+        if (div0 > div1 && div0 > div2 && div0 > div3) {
+          highestDiv = `Nutrition: £${div0.toFixed(0)}`;
+        } else if (div1 > div2 && div1 > div0 && div1 > div3) {
+          highestDiv = `Beauty: £${div1.toFixed(0)}`;
+        } else if (div2 > div1 && div2 > div0 && div2 > div3) {
+          highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
+        } else if (div3 > div0 && div3 > div1 && div3 > div2) {
+          highestDiv = `Ingenuity: £${div3.toFixed(0)}`;
+        } else {
+          highestDiv = '';
+        }
+
+        return highestDiv;
+      }
+    },
+    [countryState],
+  );
+
+  useEffect(() => {
+    const id = countryGeos[currentCountry];
+    const country = document.getElementById(id);
+
+    if (country) {
+      const position = country.getBoundingClientRect();
+      const countryStructure = {};
+      console.log(position);
+
+      countryStructure.name = currentCountry;
+      if (currentCountry === 'United States') {
+        countryStructure.right = position.right - 20;
+        countryStructure.bottom = position.top + 100;
+        countryStructure.highestDiv = getHighestDivision(currentCountry);
+      } else {
+        countryStructure.right = position.right;
+        countryStructure.bottom = position.bottom - 30;
+        countryStructure.highestDiv = getHighestDivision(currentCountry);
+      }
+
+      setAutomationData(countryStructure);
+    } else {
+      setAutomationData(null);
+    }
+  }, [currentCountry]);
+
+  useEffect(() => {
+    let timeout;
+    const interval = setInterval(() => {
+      const countryNameToShow = countryArray[currentCountryIndex.current];
+      setCurrentCountry(countryNameToShow);
+      currentCountryIndex.current++;
+      if (currentCountryIndex.current >= countryArray.length) {
+        currentCountryIndex.current = 0;
+      }
+      // timeout = setTimeout(() => {
+      //   // setAutomationData(null);
+      // }, 5000);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
+
+  const updateTooltipContent = hoveredCountry => {
+    const h = getHighestDivision(hoveredCountry);
+    if (h !== '') {
+      setDivisionContent(h);
+      setCountryContent(hoveredCountry);
+    } else {
+      setDivisionContent('');
+      setCountryContent(hoveredCountry);
+    }
+  };
 
   const handleMessage = event => {
     if (event && event.total_items_price.gbp_value) {
@@ -81,47 +198,46 @@ export const App = () => {
           }
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
-          console.log(tempDict);
+          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
-          console.log(tempDict);
+          // console.log(tempDict);
           setStateWorldTotal(tempDict);
 
           const found = channelMapping.some(el => el.channelName === channel);
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            console.log(newCategoryTotal);
+            // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
             );
             newCategoryTotal[orderCategoryIndex].categoryTotal += totalGbpPrice;
             return newCategoryTotal;
           });
-          // setBrandState(brandState => {
-          //   let newBrandState = JSON.parse(JSON.stringify(brandState));
-          //   //console.log(newBrandState);
-          //   if (channel !== null) {
-          //     const orderBrandIndex = newBrandState.findIndex(
-          //       brand => brand.channelName === channel,
-          //     );
-          //     newBrandState[orderBrandIndex].total += totalGbpPrice;
-          //     //console.log(newBrandState[orderBrandIndex]);
-          //     let newIndex = 0;
-          //     newBrandState.slice(0, 5).forEach((element, index) => {
-          //       if (element.total !== 0) {
-          //         newIndex = index;
-          //       }
-          //       return newIndex;
-          //     });
-          //     console.log(newBrandState.slice(0, newIndex + 1));
-          //     return newBrandState.sort((a, b) => b.total - a.total);
-          //   }
-          // });
+          setBrandState(brandState => {
+            let newBrandState = JSON.parse(JSON.stringify(brandState));
+            if (channel !== null) {
+              const orderBrandIndex = newBrandState.findIndex(
+                brand => brand.channelName === channel,
+              );
+              newBrandState[orderBrandIndex].total += totalGbpPrice;
+              let newIndex = 0;
+              newBrandState.slice(0, 5).forEach((element, index) => {
+                if (element.total !== 0) {
+                  newIndex = index;
+                }
+                return newIndex;
+              });
+              // console.log(newBrandState.slice(0, newIndex + 1));
+              return newBrandState.sort((a, b) => b.total - a.total);
+            }
+          });
           setCountryState(countryState => {
             let newCountryState = JSON.parse(JSON.stringify(countryState));
+
             const orderCountryIndex = newCountryState.findIndex(
               country => country.countryCode === countryCode,
             );
@@ -142,6 +258,16 @@ export const App = () => {
         }
       }
     }
+  };
+
+  const handleMouseEnter = geo => {
+    const countryName = geo.properties.name;
+    updateTooltipContent(countryName);
+  };
+
+  const handleMouseLeave = () => {
+    setDivisionContent('');
+    setCountryContent('');
   };
 
   //inline styles
@@ -176,7 +302,11 @@ export const App = () => {
         <div style={displayStyles}>
           <img style={imageStyles} src={image} alt="scale gradient" />
           <s.mapStyle>
-            <Tooltip style={{ fontSize: '18px' }} id="myTooltip" opacity={1}>
+            <Tooltip
+              style={{ fontSize: '18px', fontFamily: 'sans-serif' }}
+              id="myTooltip"
+              opacity={1}
+            >
               {countryContent}
               <br />
               {divisionContent}
@@ -184,8 +314,11 @@ export const App = () => {
             <MapChart
               id="Map"
               defaultCountryData={countryState}
-              setTooltipDivisionContent={setDivisionContent}
-              setTooltipCountryContent={setCountryContent}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              // setTooltipDivisionContent={setDivisionContent}
+              // setTooltipCountryContent={setCountryContent}
+              automationData={automationData}
             />
           </s.mapStyle>
         </div>

@@ -1,4 +1,4 @@
-//0 - nutrition, 1 - beauty, 2 - lifestyle
+//0 - nutrition, 1 - beauty, 2 - lifestyle, 3 - Ingenuity
 
 export const channelMapping = [
   { channelName: 'exant', brandName: 'Exante', div: 0, total: 0 },

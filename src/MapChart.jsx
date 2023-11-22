@@ -1,8 +1,9 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
+// import { useAutomation } from './useAutomation';
 
-const geoUrl = '/map.json';
+const geoUrl = './map.json';
 
 const colorScale = scaleLinear()
   .domain([0, 3000])
@@ -10,45 +11,11 @@ const colorScale = scaleLinear()
 
 const ChartComponent = ({
   defaultCountryData,
-  setTooltipDivisionContent,
-  setTooltipCountryContent,
+  onMouseEnter,
+  onMouseLeave,
+
+  automationData,
 }) => {
-  const updateTooltipContent = hoveredCountry => {
-    const desiredData =
-      defaultCountryData && defaultCountryData.length > 0
-        ? defaultCountryData.find(data => data.countryName === hoveredCountry)
-        : undefined;
-    if (desiredData) {
-      const div0 = desiredData.div0;
-      const div1 = desiredData.div1;
-      const div2 = desiredData.div2;
-
-      let highestDiv = '';
-      if (div0 > div1 && div0 > div2) {
-        highestDiv = `Nutrition: £${div0.toFixed(0)}`;
-      } else if (div1 > div2 && div1 > div0) {
-        highestDiv = `Beauty: £${div1.toFixed(0)}`;
-      } else if (div2 > div1 && div2 > div0) {
-        highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
-      }
-      setTooltipDivisionContent(highestDiv);
-      setTooltipCountryContent(hoveredCountry);
-    } else {
-      setTooltipDivisionContent('');
-      setTooltipCountryContent('');
-    }
-  };
-
-  const handleMouseEnter = geo => {
-    const countryName = geo.properties.name;
-    updateTooltipContent(countryName);
-  };
-
-  const handleMouseLeave = () => {
-    setTooltipDivisionContent('');
-    setTooltipCountryContent('');
-  };
-
   return (
     <div
       style={{
@@ -76,33 +43,52 @@ const ChartComponent = ({
                     )
                   : undefined;
 
-              const fillColor = countryData
-                ? colorScale(countryData.total)
-                : '#6ecbfa';
-              return (
-                <Geography
-                  data-tooltip-id="myTooltip"
-                  key={geo.rsmKey}
-                  geography={geo}
-                  id={geo.rsmKey}
-                  fill={fillColor}
-                  onMouseEnter={() => {
-                    handleMouseEnter(geo);
-                  }}
-                  onMouseLeave={handleMouseLeave}
-                  style={{
-                    hover: {
-                      fill: '#FFFFFF',
-                      outline: 'none',
-                    },
-                  }}
-                />
-              );
-            })
-          }
-        </Geographies>
-      </ComposableMap>
-    </div>
+                const fillColor = countryData
+                  ? colorScale(countryData.total)
+                  : '#6ecbfa';
+                return (
+                  <Geography
+                    data-tooltip-id="myTooltip"
+                    key={geo.rsmKey}
+                    geography={geo}
+                    id={geo.rsmKey}
+                    fill={fillColor}
+                    onMouseEnter={() => {
+                      onMouseEnter(geo);
+                    }}
+                    onMouseLeave={onMouseLeave}
+                    style={{
+                      hover: {
+                        fill: '#FFFFFF',
+                        outline: 'none',
+                      },
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ComposableMap>
+      </div>
+      {automationData && (
+        <div
+          style={{
+            left: automationData.right,
+            top: automationData.bottom,
+            position: 'fixed',
+            color: 'white',
+            backgroundColor: 'rgba(0,0,0, .8)',
+            padding: '0.3rem',
+            textAlign: 'center',
+            fontFamily: 'sans-serif',
+          }}
+        >
+          {automationData.name}
+          <br />
+          {automationData.highestDiv}
+        </div>
+      )}
+    </>
   );
 };
 export const MapChart = memo(ChartComponent);
