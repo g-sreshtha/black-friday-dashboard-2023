@@ -29,6 +29,7 @@ const countryGeos = {
   Italy: 'geo-77',
   Spain: 'geo-48',
   Australia: 'geo-7',
+  Japan: 'geo-80',
 };
 
 const countryArray = [
@@ -39,6 +40,7 @@ const countryArray = [
   'Italy',
   'Spain',
   'Australia',
+  'Japan',
 ];
 
 export const App = () => {
@@ -81,8 +83,6 @@ export const App = () => {
       const desiredData = countryState?.find(
         data => data.countryName === country,
       );
-
-      console.log({ desiredData });
 
       if (desiredData) {
         const div0 = desiredData.div0;
@@ -140,7 +140,6 @@ export const App = () => {
     }, 5000);
 
     return () => {
-      console.log('cleanup executed');
       clearInterval(interval);
       if (timeout) {
         clearTimeout(timeout);
