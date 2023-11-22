@@ -3,9 +3,9 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-  height: 3vh;
-  margin-top: 2.5rem;
-  margin-bottom: -5.5rem;
+  font-size: 4vw;
+  margin: 10px 0px;
+  color: hsl(0, 0%, 28%);
 }
 
 .heading-row {

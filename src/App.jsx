@@ -58,15 +58,17 @@ export const App = () => {
   const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
-  const [open, setOpen] = useState(false);
 
-  const handleEnter = () => {
-    setOpen(true);
+  const [openLineChart, setOpenLineChart] = useState(false);
+
+  const handleEnterLine = () => {
+    setOpenLineChart(true);
     // needs set interval
     setTimeout(() => {
-      setOpen(false);
+      setOpenLineChart(false);
     }, 120000);
   };
+
   const [automationData, setAutomationData] = useState(null);
   const currentCountryIndex = useRef(0);
   const [currentCountry, setCurrentCountry] = useState(null);
@@ -306,12 +308,7 @@ export const App = () => {
   return (
     <>
       <div style={{ display: 'grid' }}>
-        <div className="height">
-          <h1>
-            <span>The Lovelace Dashboard</span>
-          </h1>
-        </div>
-
+        <Header />
         <div style={displayStyles}>
           <img style={imageStyles} src={image} alt="scale gradient" />
           <s.mapStyle>
@@ -342,15 +339,11 @@ export const App = () => {
           <button
             style={buttonStyles}
             data-tooltip-id="my-tooltip"
-            onClick={handleEnter}
+            onClick={handleEnterLine}
           >
             ◕‿‿◕
           </button>
-          <button
-            data-tooltip-id="my-tootltip2"
-            style={buttonStyles}
-            onClick={handleEnter}
-          >
+          <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
             ◕‿◕
           </button>
           <button style={buttonStyles} data-tooltip-id="my-tootltip3">
@@ -386,6 +379,9 @@ export const App = () => {
           </Tooltip>
         </div>
       </div>
+      <video autoPlay muted loop id="video-background">
+        <source src="pexels_videos_2611250 (2160p).mp4" type="video/mp4" />
+      </video>
     </>
   );
 };
