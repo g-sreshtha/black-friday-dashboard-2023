@@ -299,9 +299,7 @@ export const App = () => {
 
   return (
     <>
-      <video autoPlay muted loop id="video-background">
-        <source src="./pexels_videos_2611250 (2160p).mp4" type="video/mp4" />
-      </video>
+      <img id="image-background" src="pexels-francesco-ungaro-998641.jpg"></img>
       <div style={{ display: 'grid' }}>
         <Header />
         <div style={displayStyles}>
