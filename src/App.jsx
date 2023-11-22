@@ -116,11 +116,18 @@ export const App = () => {
     if (country) {
       const position = country.getBoundingClientRect();
       const countryStructure = {};
+      console.log(position);
 
       countryStructure.name = currentCountry;
-      countryStructure.right = position.right;
-      countryStructure.bottom = position.bottom;
-      countryStructure.highestDiv = getHighestDivision(currentCountry);
+      if (currentCountry === 'United States') {
+        countryStructure.right = position.right - 20;
+        countryStructure.bottom = position.top + 100;
+        countryStructure.highestDiv = getHighestDivision(currentCountry);
+      } else {
+        countryStructure.right = position.right;
+        countryStructure.bottom = position.bottom - 30;
+        countryStructure.highestDiv = getHighestDivision(currentCountry);
+      }
 
       setAutomationData(countryStructure);
     } else {
