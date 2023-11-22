@@ -98,42 +98,7 @@ export const App = () => {
                 brand => brand.channelName === channel,
               );
               console.log(orderBrandIndex);
-              // if (orderBrandIndex !== -1) {
               newBrandState[orderBrandIndex].total += totalGbpPrice;
-              // } else {
-              //   const brandInfo = channelMapping.find(
-              //     brand => brand.channelName === channel,
-              //   );
-              //   newBrandState.push({
-              //     channelName: brandInfo.channelName,
-              //     brandName: brandInfo.brandName,
-              //     div: brandInfo.div,
-              //     total: brandInfo.total,
-              //   });
-              // }
-              // const topTen = newBrandState
-              //   .sort((a, b) => b.total - a.total)
-              //   .slice(0, 10);
-              // .forEach((element, index) => {
-              //   if (element.total !== 0) {
-              //     newIndex = index;
-              //   }
-              //   return newIndex;
-              // });
-              // console.log(newBrandState.slice(0, newIndex + 1));
-              // newBrandState.sort((a, b) => b.total - a.total);
-              // const tempDataStructure = [];
-              // for (let i = 0; i <= 9; i++) {
-              //   const tempObject = {
-              //     brandName: newBrandState[i].brandName,
-              //     total: newBrandState[i].total,
-              //   };
-              //   tempDataStructure.push(tempObject);
-              // }
-              // tempDataStructure.sort((a, b) => b.total - a.total);
-
-              // console.log(tempDataStructure);
-
               return newBrandState;
             }
           });
@@ -159,6 +124,11 @@ export const App = () => {
       }
     }
   };
+
+  const top10brands = brandState
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 10)
+    .map(brand => <li key={brandState.brandName}>{brand.brandName}</li>);
 
   const displayStyles = {
     display: 'flex',
@@ -202,10 +172,8 @@ export const App = () => {
         <BarChart categoryTotal={categoryTotal} />
         <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
         <div>
-          {brandState
-            .sort((a, b) => b.total - a.total)
-            .slice(0, 10)
-            .map(brand => brand.brandName)}
+          <h3>Top 10 Brands</h3>
+          <ul>{top10brands}</ul>
         </div>
       </div>
     </>
