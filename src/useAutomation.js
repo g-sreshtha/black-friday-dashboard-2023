@@ -10,28 +10,6 @@ const countryArray = [
   'Australia',
 ];
 
-export const useAutomation = updateTooltipContent => {
+export const useAutomation = handleCyledCountry => {
   const currentCountryIndex = useRef(0);
-
-  useEffect(() => {
-    let timeout;
-    const interval = setInterval(() => {
-      console.log(countryArray[currentCountryIndex.current]);
-      updateTooltipContent(countryArray[currentCountryIndex.current]);
-      currentCountryIndex.current++;
-      if (currentCountryIndex.current >= countryArray.length) {
-        currentCountryIndex.current = 0;
-      }
-      timeout = setTimeout(() => {
-        updateTooltipContent(null);
-      }, 5000);
-    }, 10000);
-
-    return () => {
-      clearInterval(interval);
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    };
-  }, []);
 };

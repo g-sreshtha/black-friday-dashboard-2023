@@ -1,7 +1,7 @@
-import { memo, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
-import { useAutomation } from './useAutomation';
+// import { useAutomation } from './useAutomation';
 
 const geoUrl = '/map.json';
 
@@ -11,87 +11,11 @@ const colorScale = scaleLinear()
 
 const ChartComponent = ({
   defaultCountryData,
-  setTooltipDivisionContent,
-  setTooltipCountryContent,
+  onMouseEnter,
+  onMouseLeave,
+
+  automationData,
 }) => {
-  const [automationData, setAutomationData] = useState(null);
-
-  const getHighestDivision = country => {
-    console.log('countryname', defaultCountryData[0].countryName);
-    const desiredData =
-      defaultCountryData && defaultCountryData.length > 0
-        ? defaultCountryData.find(data => data.countryName === country)
-        : undefined;
-
-    if (desiredData) {
-      const div0 = desiredData.div0;
-      const div1 = desiredData.div1;
-      const div2 = desiredData.div2;
-
-      console.log(div0, div1, div2);
-
-      let highestDiv = '';
-      if (div0 > div1 && div0 > div2) {
-        highestDiv = `Nutrition: £${div0.toFixed(0)}`;
-      } else if (div1 > div2 && div1 > div0) {
-        highestDiv = `Beauty: £${div1.toFixed(0)}`;
-      } else if (div2 > div1 && div2 > div0) {
-        highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
-      } else {
-        highestDiv = '';
-      }
-
-      return highestDiv;
-    }
-  };
-
-  const updateTooltipContent = hoveredCountry => {
-    if (getHighestDivision(hoveredCountry) !== '') {
-      setTooltipDivisionContent(getHighestDivision(hoveredCountry));
-      setTooltipCountryContent(hoveredCountry);
-    } else {
-      setTooltipDivisionContent('');
-      setTooltipCountryContent(hoveredCountry);
-    }
-  };
-  const handleCyledCountry = countryNameToShow => {
-    const countryGeos = {
-      'United Kingdom': 'geo-56',
-      'United States': 'geo-164',
-      France: 'geo-53',
-      Germany: 'geo-39',
-      Italy: 'geo-77',
-      Spain: 'geo-48',
-      Australia: 'geo-7',
-    };
-    const id = countryGeos[countryNameToShow];
-    const country = document.getElementById(id);
-    if (country) {
-      const position = country.getBoundingClientRect();
-      const countryStructure = {};
-      countryStructure.name = countryNameToShow;
-      countryStructure.right = position.right;
-      countryStructure.bottom = position.bottom;
-      countryStructure.highestDiv = getHighestDivision(countryNameToShow);
-
-      setAutomationData(countryStructure);
-    } else {
-      setAutomationData(null);
-    }
-  };
-
-  useAutomation(handleCyledCountry);
-
-  const handleMouseEnter = geo => {
-    const countryName = geo.properties.name;
-    updateTooltipContent(countryName);
-  };
-
-  const handleMouseLeave = () => {
-    setTooltipDivisionContent('');
-    setTooltipCountryContent('');
-  };
-
   return (
     <>
       <div
@@ -132,9 +56,9 @@ const ChartComponent = ({
                     id={geo.rsmKey}
                     fill={fillColor}
                     onMouseEnter={() => {
-                      handleMouseEnter(geo);
+                      onMouseEnter(geo);
                     }}
-                    onMouseLeave={handleMouseLeave}
+                    onMouseLeave={onMouseLeave}
                     style={{
                       hover: {
                         fill: '#FFFFFF',

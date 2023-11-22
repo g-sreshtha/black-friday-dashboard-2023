@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
@@ -21,16 +21,43 @@ const reduceToMinute = date => {
   return minTime.getTime();
 };
 
+const countryGeos = {
+  'United Kingdom': 'geo-56',
+  'United States': 'geo-164',
+  France: 'geo-53',
+  Germany: 'geo-39',
+  Italy: 'geo-77',
+  Spain: 'geo-48',
+  Australia: 'geo-7',
+};
+
+const countryArray = [
+  'United Kingdom',
+  'United States',
+  'France',
+  'Germany',
+  'Italy',
+  'Spain',
+  'Australia',
+];
+
 export const App = () => {
+  // Get the data required
+  // Coordinate which tooltip to show on hover
+  // Coordinate which random badge / box to show when intervals in seconds have passed
+
   const [stateWorldTotal, setStateWorldTotal] = useState({
     [reduceToMinute(Date.now())]: 0.0,
   });
-  console.log(stateWorldTotal);
+  // console.log(stateWorldTotal);
   const [countryState, setCountryState] = useState(defaultCountryState);
   const [countryContent, setCountryContent] = useState('');
   const [divisionContent, setDivisionContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
+  const [automationData, setAutomationData] = useState(null);
+  const currentCountryIndex = useRef(0);
+  const [currentCountry, setCurrentCountry] = useState(null);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -48,6 +75,89 @@ export const App = () => {
     });
     return () => abortController.abort();
   }, []);
+
+  const getHighestDivision = useCallback(
+    country => {
+      const desiredData = countryState?.find(
+        data => data.countryName === country,
+      );
+
+      console.log({ desiredData });
+
+      if (desiredData) {
+        const div0 = desiredData.div0;
+        const div1 = desiredData.div1;
+        const div2 = desiredData.div2;
+
+        let highestDiv = '';
+        if (div0 > div1 && div0 > div2) {
+          highestDiv = `Nutrition: £${div0.toFixed(0)}`;
+        } else if (div1 > div2 && div1 > div0) {
+          highestDiv = `Beauty: £${div1.toFixed(0)}`;
+        } else if (div2 > div1 && div2 > div0) {
+          highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
+        } else {
+          highestDiv = '';
+        }
+
+        return highestDiv;
+      }
+    },
+    [countryState],
+  );
+
+  useEffect(() => {
+    const id = countryGeos[currentCountry];
+    const country = document.getElementById(id);
+
+    if (country) {
+      const position = country.getBoundingClientRect();
+      const countryStructure = {};
+
+      countryStructure.name = currentCountry;
+      countryStructure.right = position.right;
+      countryStructure.bottom = position.bottom;
+      countryStructure.highestDiv = getHighestDivision(currentCountry);
+
+      setAutomationData(countryStructure);
+    } else {
+      setAutomationData(null);
+    }
+  }, [currentCountry]);
+
+  useEffect(() => {
+    let timeout;
+    const interval = setInterval(() => {
+      const countryNameToShow = countryArray[currentCountryIndex.current];
+      setCurrentCountry(countryNameToShow);
+      currentCountryIndex.current++;
+      if (currentCountryIndex.current >= countryArray.length) {
+        currentCountryIndex.current = 0;
+      }
+      // timeout = setTimeout(() => {
+      //   // setAutomationData(null);
+      // }, 5000);
+    }, 5000);
+
+    return () => {
+      console.log('cleanup executed');
+      clearInterval(interval);
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
+
+  const updateTooltipContent = hoveredCountry => {
+    const h = getHighestDivision(hoveredCountry);
+    if (h !== '') {
+      setDivisionContent(h);
+      setCountryContent(hoveredCountry);
+    } else {
+      setDivisionContent('');
+      setCountryContent(hoveredCountry);
+    }
+  };
 
   const handleMessage = event => {
     if (event && event.total_items_price.gbp_value) {
@@ -71,17 +181,17 @@ export const App = () => {
           }
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
-          console.log(tempDict);
+          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
-          console.log(tempDict);
+          // console.log(tempDict);
           setStateWorldTotal(tempDict);
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            console.log(newCategoryTotal);
+            // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
             );
@@ -102,12 +212,13 @@ export const App = () => {
                 }
                 return newIndex;
               });
-              console.log(newBrandState.slice(0, newIndex + 1));
+              // console.log(newBrandState.slice(0, newIndex + 1));
               return newBrandState.sort((a, b) => b.total - a.total);
             }
           });
           setCountryState(countryState => {
             let newCountryState = JSON.parse(JSON.stringify(countryState));
+
             const orderCountryIndex = newCountryState.findIndex(
               country => country.countryCode === countryCode,
             );
@@ -127,6 +238,16 @@ export const App = () => {
         }
       }
     }
+  };
+
+  const handleMouseEnter = geo => {
+    const countryName = geo.properties.name;
+    updateTooltipContent(countryName);
+  };
+
+  const handleMouseLeave = () => {
+    setDivisionContent('');
+    setCountryContent('');
   };
 
   const displayStyles = {
@@ -168,8 +289,11 @@ export const App = () => {
             </Tooltip>
             <MapChart
               defaultCountryData={countryState}
-              setTooltipDivisionContent={setDivisionContent}
-              setTooltipCountryContent={setCountryContent}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              // setTooltipDivisionContent={setDivisionContent}
+              // setTooltipCountryContent={setCountryContent}
+              automationData={automationData}
             />
           </s.mapStyle>
         </div>
