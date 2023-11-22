@@ -13,6 +13,7 @@ import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 import { Header } from './Header/Header.jsx';
 import { column } from 'stylis';
+import './videoStyle.css';
 
 const time = Date.now();
 
