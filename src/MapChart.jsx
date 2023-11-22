@@ -14,17 +14,21 @@ const ChartComponent = ({
   setTooltipDivisionContent,
   setTooltipCountryContent,
 }) => {
-  const [component, setComponent] = useState(null);
+  const [automationData, setAutomationData] = useState(null);
 
   const getHighestDivision = country => {
+    console.log('countryname', defaultCountryData[0].countryName);
     const desiredData =
       defaultCountryData && defaultCountryData.length > 0
         ? defaultCountryData.find(data => data.countryName === country)
         : undefined;
+
     if (desiredData) {
       const div0 = desiredData.div0;
       const div1 = desiredData.div1;
       const div2 = desiredData.div2;
+
+      console.log(div0, div1, div2);
 
       let highestDiv = '';
       if (div0 > div1 && div0 > div2) {
@@ -36,6 +40,7 @@ const ChartComponent = ({
       } else {
         highestDiv = '';
       }
+
       return highestDiv;
     }
   };
@@ -60,19 +65,18 @@ const ChartComponent = ({
       Australia: 'geo-7',
     };
     const id = countryGeos[countryNameToShow];
-    console.log(id, countryNameToShow);
     const country = document.getElementById(id);
     if (country) {
       const position = country.getBoundingClientRect();
       const countryStructure = {};
-      countryStructure['name'] = countryNameToShow;
-      countryStructure['right'] = position.right;
-      countryStructure['bottom'] = position.bottom;
-      countryStructure['highestDiv'] = getHighestDivision(countryNameToShow);
-      console.log(countryStructure);
-      setComponent(countryStructure);
+      countryStructure.name = countryNameToShow;
+      countryStructure.right = position.right;
+      countryStructure.bottom = position.bottom;
+      countryStructure.highestDiv = getHighestDivision(countryNameToShow);
+
+      setAutomationData(countryStructure);
     } else {
-      setComponent(null);
+      setAutomationData(null);
     }
   };
 
@@ -144,11 +148,11 @@ const ChartComponent = ({
           </Geographies>
         </ComposableMap>
       </div>
-      {component && (
+      {automationData && (
         <div
           style={{
-            left: component.right,
-            top: component.bottom,
+            left: automationData.right,
+            top: automationData.bottom,
             position: 'fixed',
             color: 'white',
             backgroundColor: 'rgba(0,0,0, .8)',
@@ -157,9 +161,9 @@ const ChartComponent = ({
             fontFamily: 'sans-serif',
           }}
         >
-          {component.name}
+          {automationData.name}
           <br />
-          {component.highestDiv}
+          {automationData.highestDiv}
         </div>
       )}
     </>
