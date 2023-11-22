@@ -42,10 +42,18 @@ svg {
 }
 
 button {
+  font-family: monospace;
   cursor: pointer;
 }
 
 .button-container .tooltip-rounded {
   border-radius: 30px;
   color: white;
+}
+
+h3 {
+  font-family: monospace;
+}
+ol {
+  font-family: monospace;
 }

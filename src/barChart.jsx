@@ -19,12 +19,7 @@ const BarChart = ({ categoryTotal }) => {
     justifyContent: 'space-evenly',
     alignItems: 'center',
   };
-  const buttons = {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
+
   const data = {
     labels: ['Ingenuity', 'Beauty', 'Nutrition', 'Lifestyle'], // y axis
     datasets: [
@@ -56,6 +51,9 @@ const BarChart = ({ categoryTotal }) => {
         display: true,
         text: 'Top Divisions',
         color: 'white',
+        font: {
+          family: 'monospace',
+        },
       },
       legend: {
         display: false,
@@ -67,9 +65,15 @@ const BarChart = ({ categoryTotal }) => {
           display: true,
           text: 'Divisions',
           color: 'white',
+          font: {
+            family: 'monospace',
+          },
         },
         ticks: {
           color: 'white',
+          font: {
+            family: 'monospace',
+          },
         },
       },
       x: {
@@ -77,9 +81,15 @@ const BarChart = ({ categoryTotal }) => {
           display: true,
           text: 'Total Revenue in £',
           color: 'white',
+          font: {
+            family: 'monospace',
+          },
         },
         ticks: {
           color: 'white',
+          font: {
+            family: 'monospace',
+          },
         },
       },
     },

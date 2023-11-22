@@ -352,7 +352,7 @@ export const App = () => {
           <Tooltip
             id="my-tooltip"
             opacity={0.98}
-            isOpen={open}
+            isOpen={openLineChart}
             openOnClick={['click']}
             className="tooltip-rounded"
           >
@@ -362,7 +362,7 @@ export const App = () => {
           <Tooltip
             id="my-tootltip2"
             opacity={0.98}
-            isOpen={open}
+            // isOpen={openLineChart}
             openOnClick={['click']}
             className="tooltip-rounded"
           >
@@ -370,7 +370,7 @@ export const App = () => {
           </Tooltip>
           <Tooltip
             id="my-tootltip3"
-            isOpen={open}
+            // isOpen={open}
             openOnClick={['click']}
             className="tooltip-rounded"
           >

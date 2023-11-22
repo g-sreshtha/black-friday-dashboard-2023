@@ -28,6 +28,9 @@ export const LineChart = ({ defaultWorldRevenue }) => {
         display: true,
         text: 'Total World Revenue',
         color: 'white',
+        font: {
+          family: 'monospace',
+        },
       },
       legend: {
         display: false,
@@ -39,9 +42,15 @@ export const LineChart = ({ defaultWorldRevenue }) => {
           display: true,
           text: 'Revenue in £',
           color: 'white',
+          font: {
+            family: 'monospace',
+          },
         },
         ticks: {
-          color: 'white', // Set the color for the y-axis tick labels
+          color: 'white',
+          font: {
+            family: 'monospace',
+          }, // Set the color for the y-axis tick labels
         },
       },
       x: {
@@ -49,9 +58,15 @@ export const LineChart = ({ defaultWorldRevenue }) => {
           display: true,
           text: 'Timestamp in hh:mm',
           color: 'white',
+          font: {
+            family: 'monospace',
+          },
         },
         ticks: {
-          color: 'white', // Set the color for the y-axis tick labels
+          color: 'white',
+          font: {
+            family: 'monospace',
+          }, // Set the color for the y-axis tick labels
         },
       },
     },
