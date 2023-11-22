@@ -5,10 +5,10 @@ const heading = styled.h1`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 250px;
+  height: 150px;
   weight: 100%;
-  margin-top: 0px;
-  margin-bottom: -110px;
+  margin-top: 20px;
+  margin-bottom: -150px;
 `;
 
 const mapStyle = styled.div`

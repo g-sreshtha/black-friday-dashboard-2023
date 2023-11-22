@@ -11,6 +11,7 @@ import { getDivisionFromChannel } from './ChannelMapping.jsx';
 import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
+import { Header } from './Header/Header.jsx';
 
 const time = Date.now();
 
@@ -199,10 +200,12 @@ export const App = () => {
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
           // console.log(tempDict);
+          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
+          // console.log(tempDict);
           // console.log(tempDict);
           setStateWorldTotal(tempDict);
 
@@ -210,6 +213,7 @@ export const App = () => {
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
+            // console.log(newCategoryTotal);
             // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
@@ -219,10 +223,13 @@ export const App = () => {
           });
           setBrandState(brandState => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
+            console.log(newBrandState);
+            console.log(channel);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
+              console.log(orderBrandIndex);
               newBrandState[orderBrandIndex].total += totalGbpPrice;
               let newIndex = 0;
               newBrandState.slice(0, 5).forEach((element, index) => {
@@ -233,6 +240,7 @@ export const App = () => {
               });
               // console.log(newBrandState.slice(0, newIndex + 1));
               return newBrandState.sort((a, b) => b.total - a.total);
+              return newBrandState;
             }
           });
           setCountryState(countryState => {
@@ -259,6 +267,11 @@ export const App = () => {
       }
     }
   };
+
+  const top10brands = brandState
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 10)
+    .map(brand => <li key={brandState.brandName}>{brand.brandName}</li>);
 
   const handleMouseEnter = geo => {
     const countryName = geo.properties.name;
@@ -340,6 +353,7 @@ export const App = () => {
           >
             ◕‿◕
           </button>
+          <button></button>
           <Tooltip
             id="my-tooltip"
             opacity={0.98}
@@ -359,6 +373,10 @@ export const App = () => {
           >
             <BarChart categoryTotal={categoryTotal} />
           </Tooltip>
+        </div>
+        <div>
+          <h3>Top 10 Brands</h3>
+          <ul>{top10brands}</ul>
         </div>
       </div>
     </>
