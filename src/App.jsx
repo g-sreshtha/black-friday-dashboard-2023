@@ -332,13 +332,13 @@ export const App = () => {
             data-tooltip-id="my-tooltip"
             onClick={handleEnterLine}
           >
-            ◕‿‿◕
+            THG multiverse ◕‿‿◕
           </button>
           <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
-            ◕‿◕
+            fav galaxies ◕‿◕
           </button>
           <button style={buttonStyles} data-tooltip-id="my-tootltip3">
-            click me pls
+            * brightest stars *
           </button>
           <Tooltip
             id="my-tooltip"
