@@ -6,8 +6,8 @@ import { scaleLinear } from 'd3-scale';
 const geoUrl = './map.json';
 
 const colorScale = scaleLinear()
-  .domain([0, 3000, 80000])
-  .range(['#a6f6ff', '#0f00e0', '#A300A3']); // Between light blue and dark blue - can be changed to different colours
+  .domain([0, 15000, 50000, 100000])
+  .range(['#a6f6ff', '#0f00e0', '#8857fa', '#9d00ab']); // Between light blue and dark blue - can be changed to different colours
 
 const ChartComponent = ({
   defaultCountryData,
@@ -25,7 +25,7 @@ const ChartComponent = ({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          marginLeft: '-15rem',
+          marginLeft: '-20rem',
           marginRight: '-10rem',
           marginBottom: '-12rem',
         }}

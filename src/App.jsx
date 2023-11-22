@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
-import image from '/colourscale.png';
+import image from '/scale.png';
 import { LineChart } from './lineGraph.jsx';
 import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
@@ -130,7 +130,7 @@ export const App = () => {
     if (country) {
       const position = country.getBoundingClientRect();
       const countryStructure = {};
-      console.log(position);
+      //console.log(position);
 
       countryStructure.name = currentCountry;
       if (currentCountry === 'United States') {
@@ -204,12 +204,10 @@ export const App = () => {
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
           // console.log(tempDict);
-          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
-          // console.log(tempDict);
           // console.log(tempDict);
           setStateWorldTotal(tempDict);
 
@@ -217,7 +215,6 @@ export const App = () => {
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            // console.log(newCategoryTotal);
             // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
@@ -227,29 +224,19 @@ export const App = () => {
           });
           setBrandState(brandState => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
-            console.log(newBrandState);
-            console.log(channel);
+            //console.log(newBrandState);
+            //console.log(channel);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
-              console.log(orderBrandIndex);
+              //console.log(orderBrandIndex);
               newBrandState[orderBrandIndex].total += totalGbpPrice;
-              let newIndex = 0;
-              newBrandState.slice(0, 5).forEach((element, index) => {
-                if (element.total !== 0) {
-                  newIndex = index;
-                }
-                return newIndex;
-              });
-              // console.log(newBrandState.slice(0, newIndex + 1));
-              return newBrandState.sort((a, b) => b.total - a.total);
               return newBrandState;
             }
           });
           setCountryState(countryState => {
             let newCountryState = JSON.parse(JSON.stringify(countryState));
-
             const orderCountryIndex = newCountryState.findIndex(
               country => country.countryCode === countryCode,
             );
@@ -261,7 +248,7 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            // console.log(newCountryState[orderCountryIndex]);
+            console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {
@@ -303,8 +290,10 @@ export const App = () => {
   };
   const imageStyles = {
     borderRadius: '20px',
-    margin: '0px 10px 10px 30px ',
-    height: '30vw',
+    // margin: '100px 10px 10px 30px ',
+    margin: '6.25rem 0.65rem 0.65rem 1.875rem ',
+    height: '35vw',
+    width: '1.75vw',
   };
 
   return (
@@ -346,13 +335,13 @@ export const App = () => {
             data-tooltip-id="my-tooltip"
             onClick={handleEnterLine}
           >
-            ◕‿‿◕
+            THG multiverse ◕‿‿◕
           </button>
           <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
-            ◕‿◕
+            fav galaxies ◕‿◕
           </button>
           <button style={buttonStyles} data-tooltip-id="my-tootltip3">
-            click me pls
+            * brightest stars *
           </button>
           <Tooltip
             id="my-tooltip"
