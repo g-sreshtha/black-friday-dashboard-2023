@@ -27,35 +27,64 @@ export const LineChart = ({ defaultWorldRevenue }) => {
       title: {
         display: true,
         text: 'Total World Revenue',
+        color: 'white',
+        font: {
+          family: 'monospace',
+        },
+      },
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Revenue in £',
+          color: 'white',
+          font: {
+            family: 'monospace',
+          },
+        },
+        ticks: {
+          color: 'white',
+          font: {
+            family: 'monospace',
+          }, // Set the color for the y-axis tick labels
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Timestamp in hh:mm',
+          color: 'white',
+          font: {
+            family: 'monospace',
+          },
+        },
+        ticks: {
+          color: 'white',
+          font: {
+            family: 'monospace',
+          }, // Set the color for the y-axis tick labels
+        },
       },
     },
   };
 
-  // so you need now an array of length 5 to display all the points on the graph
-  // change the initial usestate of stateworldtotal to an array.
-  // when setting the new stateworldtotal, make sure to add the new data and take off the old data
-  // to give you a hint do something like this
-  // const temp = [...stateworldtotal, newdatadictionary]
-  // temp.shift() //to take the first value from the queue.
-  // setstateworldtotal(temp)
-  // THE ABOVE IS PSEUDOCODE, DONT TRY TO JUST COPY AND PASTE IT
-
-  //for the labels part i think you can do something along the lines of
-
-  // labels: defaultWorldRevenue.map(obj) =>
-
-  // const arr = [{ total: 'x' }, { total: 'y' }];
-
   const data = {
-    labels: Object.keys(defaultWorldRevenue.stateWorldTotal).map(timestamp => {
+    labels: Object.keys(defaultWorldRevenue).map(timestamp => {
       const date = new Date(+timestamp);
-      return `${date.getHours()}:${date.getMinutes()}`;
+      const formattedTime = `${date.getHours()}:${
+        date.getMinutes() < 10 ? '0' : ''
+      }${date.getMinutes()}`;
+      return formattedTime; // fix the formatting!! 11:07 instead of 11:7 etc
     }), //label on x axis
     datasets: [
       {
-        label: 'current Set',
-        data: Object.keys(defaultWorldRevenue.stateWorldTotal).map(
-          timestamp => defaultWorldRevenue.stateWorldTotal[timestamp],
+        label: 'revenue over time',
+        data: Object.keys(defaultWorldRevenue).map(
+          timestamp => defaultWorldRevenue[timestamp],
         ), // label on y axis here would be world revenue total
         borderColor: 'rgba(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -65,7 +94,7 @@ export const LineChart = ({ defaultWorldRevenue }) => {
   };
 
   return (
-    <div style={{ width: '400px', height: '300px' }}>
+    <div style={{ width: '700px', height: '100%' }}>
       <Line data={data} options={options} />
     </div>
   );

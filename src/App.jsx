@@ -11,6 +11,8 @@ import { getDivisionFromChannel } from './ChannelMapping.jsx';
 import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
+import { Header } from './Header/Header.jsx';
+import { column } from 'stylis';
 
 const time = Date.now();
 
@@ -51,12 +53,24 @@ export const App = () => {
   const [stateWorldTotal, setStateWorldTotal] = useState({
     [reduceToMinute(Date.now())]: 0.0,
   });
-  // console.log(stateWorldTotal);
+  console.log(stateWorldTotal);
   const [countryState, setCountryState] = useState(defaultCountryState);
-  const [countryContent, setCountryContent] = useState('');
   const [divisionContent, setDivisionContent] = useState('');
+  const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
+
+  // only for linechart button
+  const [openLineChart, setOpenLineChart] = useState(false);
+
+  const handleEnterLine = () => {
+    setOpenLineChart(true);
+    // needs set interval
+    setTimeout(() => {
+      setOpenLineChart(false);
+    }, 120000);
+  };
+
   const [automationData, setAutomationData] = useState(null);
   const currentCountryIndex = useRef(0);
   const [currentCountry, setCurrentCountry] = useState(null);
@@ -171,14 +185,13 @@ export const App = () => {
   const handleMessage = event => {
     if (event && event.total_items_price.gbp_value) {
       const newTime = Date.now();
-      //console.log(event);
+
       const totalGbpPrice = event.total_items_price.gbp_value;
       const channel = event.property.channel;
-      const division = getDivisionFromChannel(channel);
-      const found = channelMapping.some(el => el.channelName === channel);
       const countryCode = event.shipping.country_code;
+      const division = getDivisionFromChannel(channel);
 
-      if (channel !== 'pmint' && found) {
+      if (channel !== 'pmint') {
         if (newTime - time < 180000) {
           // add the new timestamp in
           const tempDict = stateWorldTotal;
@@ -191,15 +204,20 @@ export const App = () => {
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
           // console.log(tempDict);
+          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
           // console.log(tempDict);
+          // console.log(tempDict);
           setStateWorldTotal(tempDict);
+
+          const found = channelMapping.some(el => el.channelName === channel);
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
+            // console.log(newCategoryTotal);
             // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
@@ -209,10 +227,13 @@ export const App = () => {
           });
           setBrandState(brandState => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
+            console.log(newBrandState);
+            console.log(channel);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
+              console.log(orderBrandIndex);
               newBrandState[orderBrandIndex].total += totalGbpPrice;
               let newIndex = 0;
               newBrandState.slice(0, 5).forEach((element, index) => {
@@ -223,6 +244,7 @@ export const App = () => {
               });
               // console.log(newBrandState.slice(0, newIndex + 1));
               return newBrandState.sort((a, b) => b.total - a.total);
+              return newBrandState;
             }
           });
           setCountryState(countryState => {
@@ -243,11 +265,17 @@ export const App = () => {
             return newCountryState;
           });
         } else {
+          setCountryState(defaultCountryState);
           window.location.reload();
         }
       }
     }
   };
+
+  const top10brands = brandState
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 10)
+    .map(brand => <li key={brandState.brandName}>{brand.brandName}</li>);
 
   const handleMouseEnter = geo => {
     const countryName = geo.properties.name;
@@ -259,33 +287,32 @@ export const App = () => {
     setCountryContent('');
   };
 
+  //inline styles
   const displayStyles = {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    width: '90%',
+  };
+  const buttonStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '20px',
+    width: '200px',
+    height: '35px',
+  };
+  const imageStyles = {
+    borderRadius: '20px',
+    margin: '0px 10px 10px 30px ',
+    height: '30vw',
   };
 
   return (
     <>
       <div style={{ display: 'grid' }}>
-        <s.heading>
-          <div className="height">
-            <h1>
-              <span>The Lovelace Dashboard</span>
-            </h1>
-          </div>
-        </s.heading>
+        <Header />
         <div style={displayStyles}>
-          <img
-            style={{
-              borderRadius: '20px',
-              margin: '0px 10px',
-              height: '40vw',
-            }}
-            src={image}
-            alt="scale gradient"
-          />
+          <img style={imageStyles} src={image} alt="scale gradient" />
           <s.mapStyle>
             <Tooltip
               style={{ fontSize: '18px', fontFamily: 'sans-serif' }}
@@ -297,6 +324,7 @@ export const App = () => {
               {divisionContent}
             </Tooltip>
             <MapChart
+              id="Map"
               defaultCountryData={countryState}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -306,8 +334,52 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
-        <BarChart categoryTotal={categoryTotal} />
-        <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
+        <div
+          style={{ ...displayStyles, marginBottom: '70px' }}
+          className="button-container"
+        >
+          <button
+            style={buttonStyles}
+            data-tooltip-id="my-tooltip"
+            onClick={handleEnterLine}
+          >
+            ◕‿‿◕
+          </button>
+          <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
+            ◕‿◕
+          </button>
+          <button style={buttonStyles} data-tooltip-id="my-tootltip3">
+            click me pls
+          </button>
+          <Tooltip
+            id="my-tooltip"
+            opacity={0.98}
+            isOpen={openLineChart}
+            openOnClick={['click']}
+            className="tooltip-rounded"
+          >
+            <LineChart defaultWorldRevenue={stateWorldTotal} />
+          </Tooltip>
+
+          <Tooltip
+            id="my-tootltip2"
+            opacity={0.98}
+            // isOpen={openLineChart}
+            openOnClick={['click']}
+            className="tooltip-rounded"
+          >
+            <BarChart categoryTotal={categoryTotal} />
+          </Tooltip>
+          <Tooltip
+            id="my-tootltip3"
+            // isOpen={open}
+            openOnClick={['click']}
+            className="tooltip-rounded"
+          >
+            <h3>Current Top 10 Brands</h3>
+            <ol>{top10brands}</ol>
+          </Tooltip>
+        </div>
       </div>
     </>
   );
