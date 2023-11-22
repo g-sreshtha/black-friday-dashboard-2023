@@ -3,7 +3,7 @@ import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { scaleLinear } from 'd3-scale';
 // import { useAutomation } from './useAutomation';
 
-const geoUrl = '/map.json';
+const geoUrl = './map.json';
 
 const colorScale = scaleLinear()
   .domain([0, 3000])
