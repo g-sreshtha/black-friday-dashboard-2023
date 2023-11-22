@@ -91,31 +91,48 @@ export const App = () => {
           });
           setBrandState(brandState => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
+            console.log(newBrandState);
+            console.log(channel);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
+              console.log(orderBrandIndex);
+              // if (orderBrandIndex !== -1) {
               newBrandState[orderBrandIndex].total += totalGbpPrice;
-              let newIndex = 0;
-              newBrandState.slice(0, 5).forEach((element, index) => {
-                if (element.total !== 0) {
-                  newIndex = index;
-                }
-                return newIndex;
-              });
+              // } else {
+              //   const brandInfo = channelMapping.find(
+              //     brand => brand.channelName === channel,
+              //   );
+              //   newBrandState.push({
+              //     channelName: brandInfo.channelName,
+              //     brandName: brandInfo.brandName,
+              //     div: brandInfo.div,
+              //     total: brandInfo.total,
+              //   });
+              // }
+              // const topTen = newBrandState
+              //   .sort((a, b) => b.total - a.total)
+              //   .slice(0, 10);
+              // .forEach((element, index) => {
+              //   if (element.total !== 0) {
+              //     newIndex = index;
+              //   }
+              //   return newIndex;
+              // });
               // console.log(newBrandState.slice(0, newIndex + 1));
-              newBrandState.sort((a, b) => b.total - a.total);
-              const tempDataStructure = [];
-              for (let i = 0; i <= 9; i++) {
-                const tempObject = {
-                  brandName: newBrandState[i].brandName,
-                  total: newBrandState[i].total,
-                };
-                tempDataStructure.push(tempObject);
-              }
-              tempDataStructure.sort((a, b) => b.total - a.total);
+              // newBrandState.sort((a, b) => b.total - a.total);
+              // const tempDataStructure = [];
+              // for (let i = 0; i <= 9; i++) {
+              //   const tempObject = {
+              //     brandName: newBrandState[i].brandName,
+              //     total: newBrandState[i].total,
+              //   };
+              //   tempDataStructure.push(tempObject);
+              // }
+              // tempDataStructure.sort((a, b) => b.total - a.total);
 
-              console.log(tempDataStructure);
+              // console.log(tempDataStructure);
 
               return newBrandState;
             }
@@ -184,7 +201,12 @@ export const App = () => {
         </div>
         <BarChart categoryTotal={categoryTotal} />
         <LineChart defaultWorldRevenue={{ stateWorldTotal }} />
-        <div></div>
+        <div>
+          {brandState
+            .sort((a, b) => b.total - a.total)
+            .slice(0, 10)
+            .map(brand => brand.brandName)}
+        </div>
       </div>
     </>
   );
