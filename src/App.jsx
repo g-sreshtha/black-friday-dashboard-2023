@@ -4,7 +4,7 @@ import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
 import image from '/colourscale.png';
 import { LineChart } from './lineGraph.jsx';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { defaultCountryState } from './countryDataStructure.jsx';
 import { getDivisionFromChannel } from './ChannelMapping.jsx';

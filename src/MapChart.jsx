@@ -17,31 +17,33 @@ const ChartComponent = ({
   automationData,
 }) => {
   return (
-    <div
-      style={{
-        backgroundColor: 'transparent',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <ComposableMap
-        data-tip=""
+    <>
+      <div
         style={{
-          padding: '0px',
-          marginBottom: '0px',
+          backgroundColor: 'transparent',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map(geo => {
-              const countryData =
-                defaultCountryData && defaultCountryData.length > 0
-                  ? defaultCountryData.find(
-                      data => data.countryName === geo.properties.name,
-                    )
-                  : undefined;
+        <ComposableMap
+          data-tip=""
+          style={{
+            height: '80%',
+            padding: '0px',
+            marginBottom: '0px',
+          }}
+        >
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map(geo => {
+                const countryData =
+                  defaultCountryData && defaultCountryData.length > 0
+                    ? defaultCountryData.find(
+                        data => data.countryName === geo.properties.name,
+                      )
+                    : undefined;
 
                 const fillColor = countryData
                   ? colorScale(countryData.total)
