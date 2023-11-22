@@ -336,7 +336,7 @@ export const App = () => {
           </s.mapStyle>
         </div>
         <div
-          style={{ ...displayStyles, marginBottom: '40px' }}
+          style={{ ...displayStyles, marginBottom: '70px' }}
           className="button-container"
         >
           <button
@@ -353,7 +353,9 @@ export const App = () => {
           >
             ◕‿◕
           </button>
-          <button></button>
+          <button style={buttonStyles} data-tooltip-id="my-tootltip3">
+            click me pls
+          </button>
           <Tooltip
             id="my-tooltip"
             opacity={0.98}
@@ -373,10 +375,15 @@ export const App = () => {
           >
             <BarChart categoryTotal={categoryTotal} />
           </Tooltip>
-        </div>
-        <div>
-          <h3>Top 10 Brands</h3>
-          <ul>{top10brands}</ul>
+          <Tooltip
+            id="my-tootltip3"
+            isOpen={open}
+            openOnClick={['click']}
+            className="tooltip-rounded"
+          >
+            <h3>Current Top 10 Brands</h3>
+            <ol>{top10brands}</ol>
+          </Tooltip>
         </div>
       </div>
     </>
