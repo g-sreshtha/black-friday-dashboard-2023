@@ -368,7 +368,7 @@ export const App = () => {
             <h3>Current Top 10 Brands</h3>
             <ol>{top10brands}</ol>
           </Tooltip>
-          <video autoPlay muted id="video-background">
+          <video id="video-background">
             <source src="./pexels_videos_2611250(2160p).mp4" type="video/mp4" />
             Your Browser Type is not supported
           </video>
