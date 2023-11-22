@@ -88,14 +88,17 @@ export const App = () => {
         const div0 = desiredData.div0;
         const div1 = desiredData.div1;
         const div2 = desiredData.div2;
+        const div3 = desiredData.div3;
 
         let highestDiv = '';
-        if (div0 > div1 && div0 > div2) {
+        if (div0 > div1 && div0 > div2 && div0 > div3) {
           highestDiv = `Nutrition: £${div0.toFixed(0)}`;
-        } else if (div1 > div2 && div1 > div0) {
+        } else if (div1 > div2 && div1 > div0 && div1 > div3) {
           highestDiv = `Beauty: £${div1.toFixed(0)}`;
-        } else if (div2 > div1 && div2 > div0) {
+        } else if (div2 > div1 && div2 > div0 && div2 > div3) {
           highestDiv = `Lifestyle: £${div2.toFixed(0)}`;
+        } else if (div3 > div0 && div3 > div1 && div3 > div2) {
+          highestDiv = `Ingenuity: £${div3.toFixed(0)}`;
         } else {
           highestDiv = '';
         }
