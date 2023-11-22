@@ -298,7 +298,7 @@ export const App = () => {
 
   return (
     <>
-      <video autoPlay muted loop id="video-background">
+      <video autoPlay muted id="video-background">
         <source src="pexels_videos_2611250 (2160p).mp4" type="video/mp4" />
       </video>
       <div style={{ display: 'grid' }}>
