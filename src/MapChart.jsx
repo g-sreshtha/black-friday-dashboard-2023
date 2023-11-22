@@ -6,8 +6,8 @@ import { scaleLinear } from 'd3-scale';
 const geoUrl = './map.json';
 
 const colorScale = scaleLinear()
-  .domain([0, 3000])
-  .range(['#a6f6ff', '#0f00e0']); // Between light blue and dark blue - can be changed to different colours
+  .domain([0, 3000, 80000])
+  .range(['#a6f6ff', '#0f00e0', '#A300A3']); // Between light blue and dark blue - can be changed to different colours
 
 const ChartComponent = ({
   defaultCountryData,
@@ -25,12 +25,15 @@ const ChartComponent = ({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          marginLeft: '-15rem',
+          marginRight: '-10rem',
+          marginBottom: '-12rem',
         }}
       >
         <ComposableMap
           data-tip=""
           style={{
-            height: '80%',
+            height: '10%',
             padding: '0px',
             marginBottom: '0px',
           }}
@@ -82,7 +85,9 @@ const ChartComponent = ({
             backgroundColor: 'rgba(0,0,0, .8)',
             padding: '0.3rem',
             textAlign: 'center',
-            fontFamily: 'sans-serif',
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+            fontSize: '1.1rem',
           }}
         >
           {automationData.name}

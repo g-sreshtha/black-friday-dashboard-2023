@@ -12,6 +12,7 @@ import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 import { Header } from './Header/Header.jsx';
+import { column } from 'stylis';
 
 const time = Date.now();
 
@@ -59,6 +60,7 @@ export const App = () => {
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
 
+  // only for linechart button
   const [openLineChart, setOpenLineChart] = useState(false);
 
   const handleEnterLine = () => {
@@ -379,9 +381,6 @@ export const App = () => {
           </Tooltip>
         </div>
       </div>
-      <video autoPlay muted loop id="video-background">
-        <source src="pexels_videos_2611250 (2160p).mp4" type="video/mp4" />
-      </video>
     </>
   );
 };

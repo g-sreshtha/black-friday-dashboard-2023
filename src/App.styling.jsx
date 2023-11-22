@@ -12,8 +12,8 @@ const heading = styled.h1`
 `;
 
 const mapStyle = styled.div`
-  width: 100%;
-  height: 15%,
+  width: 80%;
+  height: 12%,
   justify-content: center;
 `;
 

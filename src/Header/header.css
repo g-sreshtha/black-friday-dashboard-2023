@@ -4,8 +4,11 @@
   text-align: center;
   justify-content: center;
   font-size: 4vw;
-  margin: 10px 0px;
+  margin-top: 2.5rem;
+  margin-bottom: -4rem;
+  /* margin: 10px 0px; */
   color: hsl(0, 0%, 28%);
+  height: 3vh;
 }
 
 .heading-row {
@@ -31,4 +34,7 @@
       0 0 20px #676060,
       0 0 40px #676060;
   }
+}
+h2 {
+  font-size: 3vw;
 }
