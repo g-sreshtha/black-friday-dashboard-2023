@@ -25,7 +25,7 @@ const ChartComponent = ({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          marginLeft: '-15rem',
+          marginLeft: '-20rem',
           marginRight: '-10rem',
           marginBottom: '-12rem',
         }}
