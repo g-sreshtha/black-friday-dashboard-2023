@@ -173,10 +173,11 @@ export const App = () => {
 
       const totalGbpPrice = event.total_items_price.gbp_value;
       const channel = event.property.channel;
+      const found = channelMapping.some(el => el.channelName === channel);
       const countryCode = event.shipping.country_code;
       const division = getDivisionFromChannel(channel);
 
-      if (channel !== 'pmint') {
+      if (channel !== 'pmint' && found)) {
         if (newTime - time < 180000) {
           // add the new timestamp in
           const tempDict = stateWorldTotal;
@@ -195,7 +196,6 @@ export const App = () => {
           }
           setStateWorldTotal(tempDict);
 
-          const found = channelMapping.some(el => el.channelName === channel);
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
 
