@@ -212,7 +212,7 @@ export const App = () => {
             //console.log(channel);
             //console.log(newBrandState);
             //console.log(channel);
-            if (channel !== null) {
+            if (channel !== null && found) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
