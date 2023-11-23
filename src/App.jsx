@@ -208,25 +208,15 @@ export const App = () => {
           });
           setBrandState(brandState => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
-            console.log(newBrandState);
-            console.log(channel);
+            //console.log(newBrandState);
+            //console.log(channel);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
-              console.log(orderBrandIndex);
+              //console.log(orderBrandIndex);
               newBrandState[orderBrandIndex].total += totalGbpPrice;
-              let newIndex = 0;
-              newBrandState.slice(0, 5).forEach((element, index) => {
-                if (element.total !== 0) {
-                  newIndex = index;
-                }
-                return newIndex;
-              });
-              // console.log(newBrandState.slice(0, newIndex + 1));
-              return newBrandState.sort((a, b) => b.total - a.total);
               return newBrandState;
-              n;
             }
           });
           setCountryState(countryState => {
