@@ -281,10 +281,6 @@ export const App = () => {
     margin: '6.25rem 0.65rem 0.65rem 1.875rem ',
     height: '35vw',
     width: '1.75vw',
-    // margin: '100px 10px 10px 30px ',
-    margin: '6.25rem 0.65rem 0.65rem 1.875rem ',
-    height: '35vw',
-    width: '1.75vw',
   };
 
   return (
