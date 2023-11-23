@@ -118,7 +118,7 @@ export const App = () => {
     if (country) {
       const position = country.getBoundingClientRect();
       const countryStructure = {};
-      console.log(position);
+      //console.log(position);
 
       countryStructure.name = currentCountry;
       if (currentCountry === 'United States') {
@@ -210,10 +210,13 @@ export const App = () => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
             //console.log(newBrandState);
             //console.log(channel);
+            //console.log(newBrandState);
+            //console.log(channel);
             if (channel !== null) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
+              //console.log(orderBrandIndex);
               //console.log(orderBrandIndex);
               newBrandState[orderBrandIndex].total += totalGbpPrice;
               return newBrandState;
@@ -221,7 +224,6 @@ export const App = () => {
           });
           setCountryState(countryState => {
             let newCountryState = JSON.parse(JSON.stringify(countryState));
-
             const orderCountryIndex = newCountryState.findIndex(
               country => country.countryCode === countryCode,
             );
@@ -233,7 +235,7 @@ export const App = () => {
             } else if (division === 2) {
               newCountryState[orderCountryIndex].div2 += totalGbpPrice;
             }
-            // console.log(newCountryState[orderCountryIndex]);
+            console.log(newCountryState[orderCountryIndex]);
             return newCountryState;
           });
         } else {
@@ -275,6 +277,10 @@ export const App = () => {
   };
   const imageStyles = {
     borderRadius: '20px',
+    // margin: '100px 10px 10px 30px ',
+    margin: '6.25rem 0.65rem 0.65rem 1.875rem ',
+    height: '35vw',
+    width: '1.75vw',
     // margin: '100px 10px 10px 30px ',
     margin: '6.25rem 0.65rem 0.65rem 1.875rem ',
     height: '35vw',
