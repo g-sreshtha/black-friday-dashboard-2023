@@ -177,7 +177,7 @@ export const App = () => {
       const countryCode = event.shipping.country_code;
       const division = getDivisionFromChannel(channel);
 
-      if (channel !== 'pmint' && found)) {
+      if (channel !== 'pmint' && found) {
         if (newTime - time < 180000) {
           // add the new timestamp in
           const tempDict = stateWorldTotal;
