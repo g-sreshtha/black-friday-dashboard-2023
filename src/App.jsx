@@ -12,7 +12,6 @@ import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 import { Header } from './Header/Header.jsx';
-import { column } from 'stylis';
 
 const time = Date.now();
 
@@ -59,17 +58,6 @@ export const App = () => {
   const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
-
-  // only for linechart button
-  const [openLineChart, setOpenLineChart] = useState(false);
-
-  const handleEnterLine = () => {
-    setOpenLineChart(true);
-    // needs set interval
-    setTimeout(() => {
-      setOpenLineChart(false);
-    }, 120000);
-  };
 
   const [automationData, setAutomationData] = useState(null);
   const currentCountryIndex = useRef(0);
@@ -158,9 +146,6 @@ export const App = () => {
       if (currentCountryIndex.current >= countryArray.length) {
         currentCountryIndex.current = 0;
       }
-      // timeout = setTimeout(() => {
-      //   // setAutomationData(null);
-      // }, 5000);
     }, 5000);
 
     return () => {
@@ -204,20 +189,16 @@ export const App = () => {
           // check if the dict goes more than 10 minutes back, if it does delete the oldest
           const oldestTimestamp = Math.min(...Object.keys(tempDict));
           // console.log(tempDict);
-          // console.log(tempDict);
 
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
-          // console.log(tempDict);
-          // console.log(tempDict);
           setStateWorldTotal(tempDict);
 
           const found = channelMapping.some(el => el.channelName === channel);
-
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
-            // console.log(newCategoryTotal);
+
             // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
@@ -245,6 +226,7 @@ export const App = () => {
               // console.log(newBrandState.slice(0, newIndex + 1));
               return newBrandState.sort((a, b) => b.total - a.total);
               return newBrandState;
+              n;
             }
           });
           setCountryState(countryState => {
@@ -303,7 +285,7 @@ export const App = () => {
   };
   const imageStyles = {
     borderRadius: '20px',
-    margin: '0px 10px 10px 30px ',
+    margin: '120px 10px 10px 30px ',
     height: '30vw',
   };
 
@@ -334,29 +316,26 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
+
         <div
           style={{ ...displayStyles, marginBottom: '70px' }}
           className="button-container"
         >
-          <button
-            style={buttonStyles}
-            data-tooltip-id="my-tooltip"
-            onClick={handleEnterLine}
-          >
-            ◕‿‿◕
+          <button style={buttonStyles} data-tooltip-id="my-tooltip">
+            Revenue
           </button>
           <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
-            ◕‿◕
+            Top Divisions
           </button>
           <button style={buttonStyles} data-tooltip-id="my-tootltip3">
-            click me pls
+            Top Brands
           </button>
+
           <Tooltip
             id="my-tooltip"
             opacity={0.98}
-            isOpen={openLineChart}
-            openOnClick={['click']}
             className="tooltip-rounded"
+            openOnClick={['click']}
           >
             <LineChart defaultWorldRevenue={stateWorldTotal} />
           </Tooltip>
@@ -364,7 +343,6 @@ export const App = () => {
           <Tooltip
             id="my-tootltip2"
             opacity={0.98}
-            // isOpen={openLineChart}
             openOnClick={['click']}
             className="tooltip-rounded"
           >
@@ -372,12 +350,11 @@ export const App = () => {
           </Tooltip>
           <Tooltip
             id="my-tootltip3"
-            // isOpen={open}
             openOnClick={['click']}
             className="tooltip-rounded"
           >
-            <h3>Current Top 10 Brands</h3>
-            <ol>{top10brands}</ol>
+            <h3 style={{ fontSize: '20px' }}>Current Top 10 Brands</h3>
+            <ol style={{ fontSize: '17px' }}>{top10brands}</ol>
           </Tooltip>
         </div>
       </div>
