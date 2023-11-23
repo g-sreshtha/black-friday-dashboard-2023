@@ -299,10 +299,10 @@ export const App = () => {
 
   return (
     <>
-      <video autoPlay muted loop id="video-background">
+      {/* <video autoPlay muted loop id="video-background">
         <source src="/space.mp4" type="video/mp4" />
         Your browser does not support this dashboard
-      </video>
+      </video> */}
       <div style={{ display: 'grid' }}>
         <Header />
         <div style={displayStyles}>
