@@ -299,7 +299,10 @@ export const App = () => {
 
   return (
     <>
-      <img id="image-background" src="pexels-francesco-ungaro-998641.jpg"></img>
+      <video autoPlay muted loop id="video-background">
+        <source src="/space.mp4" type="video/mp4" />
+        Your browser does not support this dashboard
+      </video>
       <div style={{ display: 'grid' }}>
         <Header />
         <div style={displayStyles}>
