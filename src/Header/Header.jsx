@@ -5,7 +5,7 @@ export const Header = () => {
     <div className="heading-container">
       <div className="heading-row">
         <div className="col-md-12 text-center">
-          <h2> The Lovelace Dashboard</h2>
+          <h2> The Lovelace Dashboard </h2>
         </div>
       </div>
     </div>

@@ -83,11 +83,12 @@ const ChartComponent = ({
             position: 'fixed',
             color: 'white',
             backgroundColor: 'rgba(0,0,0, .8)',
-            padding: '0.3rem',
+            padding: '0.5rem',
             textAlign: 'center',
             fontFamily: 'monospace',
             fontWeight: 'bold',
             fontSize: '1.1rem',
+            borderRadius: '10px',
           }}
         >
           {automationData.name}

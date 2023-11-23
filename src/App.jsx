@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
-import image from '/scale.png';
+import image from '/new-bar.png';
 import { LineChart } from './lineGraph.jsx';
 import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
@@ -12,7 +12,6 @@ import { Tooltip } from 'react-tooltip';
 import { defaultCategoryTotal } from './categoryTotalDataStructure.jsx';
 import { channelMapping } from './ChannelMapping.jsx';
 import { Header } from './Header/Header.jsx';
-import { column } from 'stylis';
 
 const time = Date.now();
 
@@ -59,17 +58,6 @@ export const App = () => {
   const [countryContent, setCountryContent] = useState('');
   const [categoryTotal, setCategoryTotal] = useState(defaultCategoryTotal);
   const [brandState, setBrandState] = useState(channelMapping);
-
-  // only for linechart button
-  const [openLineChart, setOpenLineChart] = useState(false);
-
-  const handleEnterLine = () => {
-    setOpenLineChart(true);
-    // needs set interval
-    setTimeout(() => {
-      setOpenLineChart(false);
-    }, 120000);
-  };
 
   const [automationData, setAutomationData] = useState(null);
   const currentCountryIndex = useRef(0);
@@ -158,9 +146,6 @@ export const App = () => {
       if (currentCountryIndex.current >= countryArray.length) {
         currentCountryIndex.current = 0;
       }
-      // timeout = setTimeout(() => {
-      //   // setAutomationData(null);
-      // }, 5000);
     }, 5000);
 
     return () => {
@@ -188,10 +173,11 @@ export const App = () => {
 
       const totalGbpPrice = event.total_items_price.gbp_value;
       const channel = event.property.channel;
+      const found = channelMapping.some(el => el.channelName === channel);
       const countryCode = event.shipping.country_code;
       const division = getDivisionFromChannel(channel);
 
-      if (channel !== 'pmint') {
+      if (channel !== 'pmint' && found) {
         if (newTime - time < 180000) {
           // add the new timestamp in
           const tempDict = stateWorldTotal;
@@ -208,13 +194,11 @@ export const App = () => {
           if (reduceToMinute(newTime) - oldestTimestamp > 600000) {
             delete tempDict[oldestTimestamp];
           }
-          // console.log(tempDict);
           setStateWorldTotal(tempDict);
-
-          const found = channelMapping.some(el => el.channelName === channel);
 
           setCategoryTotal(categoryTotal => {
             let newCategoryTotal = JSON.parse(JSON.stringify(categoryTotal));
+
             // console.log(newCategoryTotal);
             const orderCategoryIndex = newCategoryTotal.findIndex(
               category => category.category === division,
@@ -226,10 +210,13 @@ export const App = () => {
             let newBrandState = JSON.parse(JSON.stringify(brandState));
             //console.log(newBrandState);
             //console.log(channel);
-            if (channel !== null) {
+            //console.log(newBrandState);
+            //console.log(channel);
+            if (channel !== null && found) {
               const orderBrandIndex = newBrandState.findIndex(
                 brand => brand.channelName === channel,
               );
+              //console.log(orderBrandIndex);
               //console.log(orderBrandIndex);
               newBrandState[orderBrandIndex].total += totalGbpPrice;
               return newBrandState;
@@ -323,29 +310,26 @@ export const App = () => {
             />
           </s.mapStyle>
         </div>
+
         <div
           style={{ ...displayStyles, marginBottom: '70px' }}
           className="button-container"
         >
-          <button
-            style={buttonStyles}
-            data-tooltip-id="my-tooltip"
-            onClick={handleEnterLine}
-          >
-            THG multiverse
+          <button style={buttonStyles} data-tooltip-id="my-tooltip">
+            Revenue
           </button>
           <button data-tooltip-id="my-tootltip2" style={buttonStyles}>
-            fav galaxies
+            Top Divisions
           </button>
           <button style={buttonStyles} data-tooltip-id="my-tootltip3">
-            brightest stars
+            Top Brands
           </button>
+
           <Tooltip
             id="my-tooltip"
             opacity={0.98}
-            isOpen={openLineChart}
-            openOnClick={['click']}
             className="tooltip-rounded"
+            openOnClick={['click']}
           >
             <LineChart defaultWorldRevenue={stateWorldTotal} />
           </Tooltip>
@@ -353,7 +337,6 @@ export const App = () => {
           <Tooltip
             id="my-tootltip2"
             opacity={0.98}
-            // isOpen={openLineChart}
             openOnClick={['click']}
             className="tooltip-rounded"
           >
@@ -361,12 +344,11 @@ export const App = () => {
           </Tooltip>
           <Tooltip
             id="my-tootltip3"
-            // isOpen={open}
             openOnClick={['click']}
             className="tooltip-rounded"
           >
-            <h3>Current Top 10 Brands</h3>
-            <ol>{top10brands}</ol>
+            <h3 style={{ fontSize: '20px' }}>Current Top 10 Brands</h3>
+            <ol style={{ fontSize: '17px' }}>{top10brands}</ol>
           </Tooltip>
         </div>
       </div>
