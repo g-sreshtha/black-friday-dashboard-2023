@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import s from './App.styling.jsx';
 import { MapChart } from './MapChart.jsx';
 import BarChart from './barChart.jsx';
-import image from '/colourscale.png';
+import image from '/new-bar.png';
 import { LineChart } from './lineGraph.jsx';
 import { useState, useEffect } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
